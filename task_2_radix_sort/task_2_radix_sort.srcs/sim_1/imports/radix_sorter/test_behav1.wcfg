@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="test_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="test" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="1195833fs"></ZoomStartTime>
+      <ZoomEndTime time="6960834fs"></ZoomEndTime>
+      <Cursor1Time time="6000000fs"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="533"></NameColumnWidth>
+      <ValueColumnWidth column_width="259"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="17" />
+   <wvobject type="logic" fp_name="/test/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/rst">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/input">
+      <obj_property name="ElementShortName">input[31:0]</obj_property>
+      <obj_property name="ObjectShortName">input[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/input_ready">
+      <obj_property name="ElementShortName">input_ready</obj_property>
+      <obj_property name="ObjectShortName">input_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/input_end">
+      <obj_property name="ElementShortName">input_end</obj_property>
+      <obj_property name="ObjectShortName">input_end</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/ready_to_read">
+      <obj_property name="ElementShortName">ready_to_read</obj_property>
+      <obj_property name="ObjectShortName">ready_to_read</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/memory">
+      <obj_property name="ElementShortName">memory[63:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory[63:0][31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/output">
+      <obj_property name="ElementShortName">output[31:0]</obj_property>
+      <obj_property name="ObjectShortName">output[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/output_ready">
+      <obj_property name="ElementShortName">output_ready</obj_property>
+      <obj_property name="ObjectShortName">output_ready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/output_end">
+      <obj_property name="ElementShortName">output_end</obj_property>
+      <obj_property name="ObjectShortName">output_end</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bin_head_r">
+      <obj_property name="ElementShortName">bin_head_r</obj_property>
+      <obj_property name="ObjectShortName">bin_head_r</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bin_head_l">
+      <obj_property name="ElementShortName">bin_head_l</obj_property>
+      <obj_property name="ObjectShortName">bin_head_l</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/sort_state">
+      <obj_property name="ElementShortName">sort_state</obj_property>
+      <obj_property name="ObjectShortName">sort_state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/j">
+      <obj_property name="ElementShortName">j</obj_property>
+      <obj_property name="ObjectShortName">j</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bin_iteration">
+      <obj_property name="ElementShortName">bin_iteration</obj_property>
+      <obj_property name="ObjectShortName">bin_iteration</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/bins">
+      <obj_property name="ElementShortName">bins[1:0][63:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">bins[1:0][63:0][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/test/DUT/bins[1]">
+         <obj_property name="ElementShortName">[1][63:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][63:0][31:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/test/DUT/bins[0]">
+         <obj_property name="ElementShortName">[0][63:0][31:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][63:0][31:0]</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+   </wvobject>
+</wave_config>
