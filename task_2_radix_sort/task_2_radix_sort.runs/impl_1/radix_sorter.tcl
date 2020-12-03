@@ -17,7 +17,7 @@ proc create_report { reportName command } {
   }
 }
 namespace eval ::optrace {
-  variable script "/home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.runs/impl_1/sum.tcl"
+  variable script "/home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/impl_1/radix_sorter.tcl"
   variable category "vivado_impl"
 }
 
@@ -130,19 +130,19 @@ OPTRACE "create in-memory project" START { }
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.cache/wt [current_project]
-  set_property parent.project_path /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.xpr [current_project]
-  set_property ip_output_repo /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.cache/ip [current_project]
+  set_property webtalk.parent_dir /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/wt [current_project]
+  set_property parent.project_path /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.xpr [current_project]
+  set_property ip_output_repo /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.runs/synth_1/sum.dcp
+  add_files -quiet /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/synth_1/radix_sorter.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new/constraints.xdc
+  read_xdc /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/constrs_1/new/constraints.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "add files" END { }
 OPTRACE "link_design" START { }
-  link_design -top sum -part xc7z020clg484-1
+  link_design -top radix_sorter -part xc7z020clg484-1
 OPTRACE "link_design" END { }
 OPTRACE "gray box cells" START { }
 OPTRACE "gray box cells" END { }
@@ -174,10 +174,10 @@ OPTRACE "opt_design" END { }
 OPTRACE "read constraints: opt_design_post" START { }
 OPTRACE "read constraints: opt_design_post" END { }
 OPTRACE "Opt Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force sum_opt.dcp
+  write_checkpoint -force radix_sorter_opt.dcp
 OPTRACE "Opt Design: write_checkpoint" END { }
 OPTRACE "opt_design reports" START { REPORT }
-  create_report "impl_1_opt_report_drc_0" "report_drc -file sum_drc_opted.rpt -pb sum_drc_opted.pb -rpx sum_drc_opted.rpx"
+  create_report "impl_1_opt_report_drc_0" "report_drc -file radix_sorter_drc_opted.rpt -pb radix_sorter_drc_opted.pb -rpx radix_sorter_drc_opted.rpx"
 OPTRACE "opt_design reports" END { }
   close_msg_db -file opt_design.pb
 } RESULT]
@@ -208,12 +208,12 @@ OPTRACE "place_design" END { }
 OPTRACE "read constraints: place_design_post" START { }
 OPTRACE "read constraints: place_design_post" END { }
 OPTRACE "Place Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force sum_placed.dcp
+  write_checkpoint -force radix_sorter_placed.dcp
 OPTRACE "Place Design: write_checkpoint" END { }
 OPTRACE "place_design reports" START { REPORT }
-  create_report "impl_1_place_report_io_0" "report_io -file sum_io_placed.rpt"
-  create_report "impl_1_place_report_utilization_0" "report_utilization -file sum_utilization_placed.rpt -pb sum_utilization_placed.pb"
-  create_report "impl_1_place_report_control_sets_0" "report_control_sets -verbose -file sum_control_sets_placed.rpt"
+  create_report "impl_1_place_report_io_0" "report_io -file radix_sorter_io_placed.rpt"
+  create_report "impl_1_place_report_utilization_0" "report_utilization -file radix_sorter_utilization_placed.rpt -pb radix_sorter_utilization_placed.pb"
+  create_report "impl_1_place_report_control_sets_0" "report_control_sets -verbose -file radix_sorter_control_sets_placed.rpt"
 OPTRACE "place_design reports" END { }
   close_msg_db -file place_design.pb
 } RESULT]
@@ -239,7 +239,7 @@ OPTRACE "phys_opt_design" END { }
 OPTRACE "read constraints: phys_opt_design_post" START { }
 OPTRACE "read constraints: phys_opt_design_post" END { }
 OPTRACE "Post-Place Phys Opt Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force sum_physopt.dcp
+  write_checkpoint -force radix_sorter_physopt.dcp
 OPTRACE "Post-Place Phys Opt Design: write_checkpoint" END { }
 OPTRACE "phys_opt_design report" START { REPORT }
 OPTRACE "phys_opt_design report" END { }
@@ -267,17 +267,17 @@ OPTRACE "route_design" END { }
 OPTRACE "read constraints: route_design_post" START { }
 OPTRACE "read constraints: route_design_post" END { }
 OPTRACE "Route Design: write_checkpoint" START { CHECKPOINT }
-  write_checkpoint -force sum_routed.dcp
+  write_checkpoint -force radix_sorter_routed.dcp
 OPTRACE "Route Design: write_checkpoint" END { }
 OPTRACE "route_design reports" START { REPORT }
-  create_report "impl_1_route_report_drc_0" "report_drc -file sum_drc_routed.rpt -pb sum_drc_routed.pb -rpx sum_drc_routed.rpx"
-  create_report "impl_1_route_report_methodology_0" "report_methodology -file sum_methodology_drc_routed.rpt -pb sum_methodology_drc_routed.pb -rpx sum_methodology_drc_routed.rpx"
-  create_report "impl_1_route_report_power_0" "report_power -file sum_power_routed.rpt -pb sum_power_summary_routed.pb -rpx sum_power_routed.rpx"
-  create_report "impl_1_route_report_route_status_0" "report_route_status -file sum_route_status.rpt -pb sum_route_status.pb"
-  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -file sum_timing_summary_routed.rpt -pb sum_timing_summary_routed.pb -rpx sum_timing_summary_routed.rpx -warn_on_violation "
-  create_report "impl_1_route_report_incremental_reuse_0" "report_incremental_reuse -file sum_incremental_reuse_routed.rpt"
-  create_report "impl_1_route_report_clock_utilization_0" "report_clock_utilization -file sum_clock_utilization_routed.rpt"
-  create_report "impl_1_route_report_bus_skew_0" "report_bus_skew -warn_on_violation -file sum_bus_skew_routed.rpt -pb sum_bus_skew_routed.pb -rpx sum_bus_skew_routed.rpx"
+  create_report "impl_1_route_report_drc_0" "report_drc -file radix_sorter_drc_routed.rpt -pb radix_sorter_drc_routed.pb -rpx radix_sorter_drc_routed.rpx"
+  create_report "impl_1_route_report_methodology_0" "report_methodology -file radix_sorter_methodology_drc_routed.rpt -pb radix_sorter_methodology_drc_routed.pb -rpx radix_sorter_methodology_drc_routed.rpx"
+  create_report "impl_1_route_report_power_0" "report_power -file radix_sorter_power_routed.rpt -pb radix_sorter_power_summary_routed.pb -rpx radix_sorter_power_routed.rpx"
+  create_report "impl_1_route_report_route_status_0" "report_route_status -file radix_sorter_route_status.rpt -pb radix_sorter_route_status.pb"
+  create_report "impl_1_route_report_timing_summary_0" "report_timing_summary -max_paths 10 -file radix_sorter_timing_summary_routed.rpt -pb radix_sorter_timing_summary_routed.pb -rpx radix_sorter_timing_summary_routed.rpx -warn_on_violation "
+  create_report "impl_1_route_report_incremental_reuse_0" "report_incremental_reuse -file radix_sorter_incremental_reuse_routed.rpt"
+  create_report "impl_1_route_report_clock_utilization_0" "report_clock_utilization -file radix_sorter_clock_utilization_routed.rpt"
+  create_report "impl_1_route_report_bus_skew_0" "report_bus_skew -warn_on_violation -file radix_sorter_bus_skew_routed.rpt -pb radix_sorter_bus_skew_routed.pb -rpx radix_sorter_bus_skew_routed.rpx"
 OPTRACE "route_design reports" END { }
 OPTRACE "route_design misc" START { }
   close_msg_db -file route_design.pb
@@ -285,7 +285,7 @@ OPTRACE "route_design write_checkpoint" START { CHECKPOINT }
 OPTRACE "route_design write_checkpoint" END { }
 } RESULT]
 if {$rc} {
-  write_checkpoint -force sum_routed_error.dcp
+  write_checkpoint -force radix_sorter_routed_error.dcp
   step_failed route_design
   return -code error $RESULT
 } else {

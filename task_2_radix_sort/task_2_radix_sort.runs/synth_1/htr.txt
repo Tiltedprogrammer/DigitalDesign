@@ -6,4 +6,4 @@
 # Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 #
 
-vivado -log sum.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source sum.tcl
+vivado -log radix_sorter.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source radix_sorter.tcl

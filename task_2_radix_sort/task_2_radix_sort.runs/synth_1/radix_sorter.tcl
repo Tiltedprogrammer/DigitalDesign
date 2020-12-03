@@ -4,7 +4,7 @@
 
 set TIME_start [clock seconds] 
 namespace eval ::optrace {
-  variable script "/home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.runs/synth_1/sum.tcl"
+  variable script "/home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/synth_1/radix_sorter.tcl"
   variable category "vivado_synth"
 }
 
@@ -70,6 +70,7 @@ proc create_report { reportName command } {
   }
 }
 OPTRACE "synth_1" START { ROLLUP_AUTO }
+set_param chipscope.maxJobs 4
 set_msg_config -id {Common 17-41} -limit 10000000
 OPTRACE "Creating in-memory project" START { }
 create_project -in_memory -part xc7z020clg484-1
@@ -77,16 +78,16 @@ create_project -in_memory -part xc7z020clg484-1
 set_param project.singleFileAddWarning.threshold 0
 set_param project.compositeFile.enableAutoGeneration 0
 set_param synth.vivado.isSynthRun true
-set_property webtalk.parent_dir /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.cache/wt [current_project]
-set_property parent.project_path /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.xpr [current_project]
+set_property webtalk.parent_dir /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/wt [current_project]
+set_property parent.project_path /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.xpr [current_project]
 set_property default_lib xil_defaultlib [current_project]
 set_property target_language VHDL [current_project]
 set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
-set_property ip_output_repo /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.cache/ip [current_project]
+set_property ip_output_repo /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/ip [current_project]
 set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "Creating in-memory project" END { }
 OPTRACE "Adding files" START { }
-read_vhdl -library xil_defaultlib /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/memory.vhd
+read_vhdl -library xil_defaultlib /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sources_1/new/radix_sorter.vhd
 OPTRACE "Adding files" END { }
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the
@@ -96,24 +97,24 @@ OPTRACE "Adding files" END { }
 foreach dcp [get_files -quiet -all -filter file_type=="Design\ Checkpoint"] {
   set_property used_in_implementation false $dcp
 }
-read_xdc /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new/constraints.xdc
-set_property used_in_implementation false [get_files /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new/constraints.xdc]
+read_xdc /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/constrs_1/new/constraints.xdc
+set_property used_in_implementation false [get_files /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/constrs_1/new/constraints.xdc]
 
 set_param ips.enableIPCacheLiteLoad 1
 close [open __synthesis_is_running__ w]
 
 OPTRACE "synth_design" START { }
-synth_design -top sum -part xc7z020clg484-1
+synth_design -top radix_sorter -part xc7z020clg484-1
 OPTRACE "synth_design" END { }
 
 
 OPTRACE "write_checkpoint" START { CHECKPOINT }
 # disable binary constraint mode for synth run checkpoints
 set_param constraints.enableBinaryConstraints false
-write_checkpoint -force -noxdef sum.dcp
+write_checkpoint -force -noxdef radix_sorter.dcp
 OPTRACE "write_checkpoint" END { }
 OPTRACE "synth reports" START { REPORT }
-create_report "synth_1_synth_report_utilization_0" "report_utilization -file sum_utilization_synth.rpt -pb sum_utilization_synth.pb"
+create_report "synth_1_synth_report_utilization_0" "report_utilization -file radix_sorter_utilization_synth.rpt -pb radix_sorter_utilization_synth.pb"
 OPTRACE "synth reports" END { }
 file delete __synthesis_is_running__
 close [open __synthesis_is_complete__ w]
