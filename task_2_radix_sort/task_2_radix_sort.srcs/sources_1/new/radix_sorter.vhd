@@ -49,7 +49,11 @@ end radix_sorter;
 architecture Behavioral of radix_sorter is
 
 type STATE_TYPE is (ready, finished,eof, sorting);
-type SORT_TYPE is (init,pack_bin,unpack_bin_l,unpack_bin_r);
+type SORT_TYPE is (init,pack_bin,unpack_bin_l,unpack_bin_r,store_to_left,store_to_right,
+                   store_back_to_memory_from_left,store_back_to_memory_from_right, compare
+--                   ,move_head_l, move_head_r
+    );
+
 signal state: STATE_TYPE;
 signal sort_state : SORT_TYPE;
 
@@ -58,9 +62,10 @@ signal counter : integer;
 
 type ram_type is array (MEM_SIZE - 1 downto 0) of signed(NUM_SIZE - 1 downto 0);
 type bin_type is array (1 downto 0) of ram_type;
-signal memory : ram_type;
 
-signal bins : bin_type;
+signal memory : ram_type;
+signal bin_left : ram_type;
+signal bin_right : ram_type;
 
 signal bin_head_l : integer;
 signal bin_head_r : integer;
@@ -69,11 +74,14 @@ signal j : integer;
 signal bin_iteration : integer;
 signal current : integer;
 
+signal val_to_store : signed(NUM_SIZE - 1 downto 0);
+signal place_to_store : integer;
+
 begin
 
 
 input : process(CLK,RST) 
-    
+        
     begin
         if RST = '1' then 
             OUT_DATA_VALID <= '0'; 
@@ -109,16 +117,41 @@ input : process(CLK,RST)
                         else state <= finished;
                         end if;
                     when pack_bin =>
-                        if j < counter then 
-                            if memory(j)(bin_iteration) = '0' then bins(0)(bin_head_l) <= memory(j); bin_head_l <= bin_head_l + 1; j <= j + 1;
-                            else bins(1)(bin_head_r) <= memory(j); bin_head_r <= bin_head_r + 1; j <= j + 1; end if;
+                        if j < counter then
+                            val_to_store <= memory(j);
+                            sort_state <= compare; 
                         else sort_state <= unpack_bin_l; j <= 0; end if;
+                    when compare => 
+                        if memory(j)(bin_iteration) = '0' then sort_state <= store_to_left;
+                            else sort_state <= store_to_right; end if;
+                    when store_to_left => bin_left(bin_head_l) <= val_to_store; j <= j + 1; bin_head_l <= bin_head_l + 1; sort_state <= pack_bin;
+                    
+                    when store_to_right => bin_right(bin_head_r) <= val_to_store; j <= j + 1; bin_head_r <= bin_head_r + 1; sort_state <= pack_bin; 
+                    
+--                    when move_head_l => 
+--                        j <= j + 1; bin_head_l <= bin_head_l + 1;
+--                        sort_state <= pack_bin;
+                        
+--                    when move_head_r => 
+--                        j <= j + 1; 
+--                        bin_head_r <= bin_head_r + 1;
+--                        sort_state <= pack_bin;
+                        
                     when unpack_bin_l =>
-                        if j < bin_head_l then memory(j) <= bins(0)(j); j <= j + 1;
+                        if j < bin_head_l then val_to_store <= bin_left(j); j <= j + 1; sort_state <= store_back_to_memory_from_left;
                         else j <= 0; sort_state <= unpack_bin_r; end if;
+                    
                     when unpack_bin_r =>
-                        if j < bin_head_r then memory(j + bin_head_l) <= bins(1)(j); j <= j + 1;
+                        if j < bin_head_r then val_to_store <= bin_right(j); j <= j + 1; sort_state <= store_back_to_memory_from_right;
                         else  j <= 0; bin_iteration <= bin_iteration + 1; sort_state <= init; end if;
+                    
+                    when store_back_to_memory_from_left =>
+                        memory(j - 1) <= val_to_store;
+                        sort_state <= unpack_bin_l;
+                    
+                    when store_back_to_memory_from_right =>
+                        memory(j - 1 + bin_head_l) <= val_to_store;
+                        sort_state <= unpack_bin_r;
                 end case;
                 
             --for i in range(32): -- if bin_iteration < 32 then

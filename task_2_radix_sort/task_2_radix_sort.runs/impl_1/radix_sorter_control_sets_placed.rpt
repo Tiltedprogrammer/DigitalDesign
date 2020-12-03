@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-| Date         : Thu Dec  3 15:10:56 2020
+| Date         : Thu Dec  3 17:41:41 2020
 | Host         : UNIT-2060 running 64-bit Ubuntu 20.04.1 LTS
 | Command      : report_control_sets -verbose -file radix_sorter_control_sets_placed.rpt
 | Design       : radix_sorter
@@ -23,11 +23,11 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Total control sets                                       |   139 |
-|    Minimum number of control sets                        |   139 |
+| Total control sets                                       |    18 |
+|    Minimum number of control sets                        |    18 |
 |    Addition due to synthesis replication                 |     0 |
 |    Addition due to physical synthesis replication        |     0 |
-| Unused register locations in slices containing registers |    19 |
+| Unused register locations in slices containing registers |    48 |
 +----------------------------------------------------------+-------+
 * Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
 ** Run report_qor_suggestions for automated merging and remapping suggestions
@@ -39,15 +39,15 @@ Table of Contents
 +--------------------+-------+
 |       Fanout       | Count |
 +--------------------+-------+
-| Total control sets |   139 |
-| >= 0 to < 4        |     2 |
-| >= 4 to < 6        |     0 |
-| >= 6 to < 8        |     1 |
+| Total control sets |    18 |
+| >= 0 to < 4        |     6 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |     0 |
 | >= 8 to < 10       |     0 |
 | >= 10 to < 12      |     0 |
 | >= 12 to < 14      |     0 |
 | >= 14 to < 16      |     0 |
-| >= 16              |   136 |
+| >= 16              |    11 |
 +--------------------+-------+
 * Control sets can be remapped at either synth_design or opt_design
 
@@ -58,160 +58,39 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |               7 |            5 |
+| No           | No                    | No                     |               3 |            2 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
-| Yes          | No                    | No                     |            4129 |         1053 |
+| Yes          | No                    | No                     |              72 |           33 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             213 |           65 |
+| Yes          | Yes                   | No                     |             189 |           64 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 4. Detailed Control Set Information
 -----------------------------------
 
-+----------------+---------------------------+---------------------------+------------------+----------------+--------------+
-|  Clock Signal  |       Enable Signal       |      Set/Reset Signal     | Slice Load Count | Bel Load Count | Bels / Slice |
-+----------------+---------------------------+---------------------------+------------------+----------------+--------------+
-|  CLK_IBUF_BUFG | current[31]_i_2_n_0       |                           |                1 |              1 |         1.00 |
-|  CLK_IBUF_BUFG | RST_IBUF                  | OUT_DATA_VALID_i_1_n_0    |                1 |              1 |         1.00 |
-|  CLK_IBUF_BUFG |                           |                           |                5 |              7 |         1.40 |
-|  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0    | bin_head_l[31]_i_1_n_0    |                8 |             31 |         3.88 |
-|  CLK_IBUF_BUFG | counter[31]_i_2_n_0       | counter[31]_i_1_n_0       |                8 |             31 |         3.88 |
-|  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0    | bin_head_r[31]_i_1_n_0    |               12 |             31 |         2.58 |
-|  CLK_IBUF_BUFG | bins[0][30][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][60][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][32][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][33][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][34][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][11][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[1][23][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][24][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][55][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][56][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][57][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][58][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][59][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][5][31]_i_1_n_0    |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][63][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][2][31]_i_1_n_0    |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][29][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][28][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[1][22][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][10][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | OUT_DATA[31]_i_1_n_0      |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[0][12][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][31][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][0][31]_i_1_n_0    |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[1][54][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][53][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][52][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][51][31]_i_1_n_0   |                           |               13 |             32 |         2.46 |
-|  CLK_IBUF_BUFG | bins[1][50][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][4][31]_i_1_n_0    |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][49][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bin_iteration[31]_i_2_n_0 | bin_iteration[31]_i_1_n_0 |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][1][31]_i_1_n_0    |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][19][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][18][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][17][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][25][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][28][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][27][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][26][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][25][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][26][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][27][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][16][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | current[31]_i_2_n_0       | current[31]_i_1_n_0       |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][14][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[0][15][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][61][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][36][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][21][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][24][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[0][23][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][22][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][21][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][20][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][37][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][20][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][9][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][8][31]_i_1_n_0    |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][7][31]_i_1_n_0    |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][6][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][48][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[1][62][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][57][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[0][4][31]_i_1_n_0    |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][50][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][51][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][52][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][53][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][54][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][55][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][56][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][49][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][58][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][59][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][5][31]_i_1_n_0    |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][60][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][61][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][62][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][47][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][41][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][13][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[0][35][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][36][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[0][37][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][38][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][39][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][3][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][40][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][63][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][42][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][43][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[0][44][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[0][45][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][46][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][47][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][48][31]_i_1_n_0   |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[1][3][31]_i_1_n_0    |                           |                6 |             32 |         5.33 |
-|  CLK_IBUF_BUFG | bins[0][6][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][31][31]_i_1_n_0   |                           |               12 |             32 |         2.67 |
-|  CLK_IBUF_BUFG | bins[1][32][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][33][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[1][34][31]_i_1_n_0   |                           |                5 |             32 |         6.40 |
-|  CLK_IBUF_BUFG | bins[1][35][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][38][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][39][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][30][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][40][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][41][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][42][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][43][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][44][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][45][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][46][31]_i_1_n_0   |                           |               12 |             32 |         2.67 |
-|  CLK_IBUF_BUFG | bins[1][15][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[0][7][31]_i_1_n_0    |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[0][8][31]_i_1_n_0    |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[0][9][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][0][31]_i_1_n_0    |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][10][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][11][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][12][31]_i_1_n_0   |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][13][31]_i_1_n_0   |                           |                8 |             32 |         4.00 |
-|  CLK_IBUF_BUFG | bins[1][14][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][2][31]_i_1_n_0    |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][16][31]_i_1_n_0   |                           |                4 |             32 |         8.00 |
-|  CLK_IBUF_BUFG | bins[1][17][31]_i_1_n_0   |                           |               11 |             32 |         2.91 |
-|  CLK_IBUF_BUFG | bins[1][18][31]_i_1_n_0   |                           |                9 |             32 |         3.56 |
-|  CLK_IBUF_BUFG | bins[1][19][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | bins[1][1][31]_i_1_n_0    |                           |                7 |             32 |         4.57 |
-|  CLK_IBUF_BUFG | bins[1][29][31]_i_1_n_0   |                           |               10 |             32 |         3.20 |
-|  CLK_IBUF_BUFG | j[31]_i_2_n_0             | j[31]_i_1_n_0             |               19 |             55 |         2.89 |
-|  CLK_IBUF_BUFG | memory                    |                           |               33 |            132 |         4.00 |
-+----------------+---------------------------+---------------------------+------------------+----------------+--------------+
++----------------+--------------------------------+---------------------------+------------------+----------------+--------------+
+|  Clock Signal  |          Enable Signal         |      Set/Reset Signal     | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+--------------------------------+---------------------------+------------------+----------------+--------------+
+|  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0         |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | current[31]_i_2_n_0            |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | RST_IBUF                       | OUT_DATA_VALID_i_1_n_0    |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0         |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG |                                |                           |                2 |              3 |         1.50 |
+|  CLK_IBUF_BUFG | sort_state[3]_i_1_n_0          |                           |                3 |              4 |         1.33 |
+|  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0         | bin_head_r[31]_i_1_n_0    |               12 |             31 |         2.58 |
+|  CLK_IBUF_BUFG | counter[31]_i_2_n_0            | counter[31]_i_1_n_0       |               11 |             31 |         2.82 |
+|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  | j[31]_i_1_n_0             |               13 |             31 |         2.38 |
+|  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0         | bin_head_l[31]_i_1_n_0    |                9 |             31 |         3.44 |
+|  CLK_IBUF_BUFG | val_to_store[31]_i_1_n_0       |                           |               15 |             32 |         2.13 |
+|  CLK_IBUF_BUFG | OUT_DATA[31]_i_1_n_0           |                           |               11 |             32 |         2.91 |
+|  CLK_IBUF_BUFG | bin_iteration[31]_i_2_n_0      | bin_iteration[31]_i_1_n_0 |                9 |             32 |         3.56 |
+|  CLK_IBUF_BUFG | current[31]_i_2_n_0            | current[31]_i_1_n_0       |                9 |             32 |         3.56 |
+|  CLK_IBUF_BUFG | bin_right                      |                           |               11 |             44 |         4.00 |
+|  CLK_IBUF_BUFG | bin_left                       |                           |               11 |             44 |         4.00 |
+|  CLK_IBUF_BUFG | memory_reg_r1_0_63_0_2_i_4_n_0 |                           |               22 |             88 |         4.00 |
++----------------+--------------------------------+---------------------------+------------------+----------------+--------------+
 
 

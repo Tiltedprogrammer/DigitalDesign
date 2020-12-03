@@ -1,7 +1,7 @@
 # compile vhdl design source files
 vhdl xil_defaultlib  \
-"../../../../radix_sorter.srcs/sources_1/new/radix_sorter.vhd" \
-"../../../../radix_sorter.srcs/sim_1/new/test.vhd" \
+"../../../../task_2_radix_sort.srcs/sources_1/new/radix_sorter.vhd" \
+"../../../../task_2_radix_sort.srcs/sim_1/new/test.vhd" \
 
 # Do not sort compile order
 nosort
