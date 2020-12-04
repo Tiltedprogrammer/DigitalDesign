@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-| Date         : Thu Dec  3 17:40:55 2020
+| Date         : Fri Dec  4 21:35:01 2020
 | Host         : UNIT-2060 running 64-bit Ubuntu 20.04.1 LTS
 | Command      : report_utilization -file radix_sorter_utilization_synth.rpt -pb radix_sorter_utilization_synth.pb
 | Design       : radix_sorter

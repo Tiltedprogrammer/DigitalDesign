@@ -61,7 +61,7 @@ signal counter : integer;
 
 
 type ram_type is array (MEM_SIZE - 1 downto 0) of signed(NUM_SIZE - 1 downto 0);
-type bin_type is array (1 downto 0) of ram_type;
+--type bin_type is array (1 downto 0) of ram_type;
 
 signal memory : ram_type;
 signal bin_left : ram_type;
@@ -122,7 +122,7 @@ input : process(CLK,RST)
                             sort_state <= compare; 
                         else sort_state <= unpack_bin_l; j <= 0; end if;
                     when compare => 
-                        if memory(j)(bin_iteration) = '0' then sort_state <= store_to_left;
+                        if val_to_store(bin_iteration) = '0' then sort_state <= store_to_left;
                             else sort_state <= store_to_right; end if;
                     when store_to_left => bin_left(bin_head_l) <= val_to_store; j <= j + 1; bin_head_l <= bin_head_l + 1; sort_state <= pack_bin;
                     

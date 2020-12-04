@@ -2,8 +2,8 @@
 # Vivado v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Thu Dec  3 17:40:59 2020
-# Process ID: 3895559
+# Start of session at: Fri Dec  4 21:35:05 2020
+# Process ID: 4179548
 # Current directory: /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/impl_1
 # Command line: vivado -log radix_sorter.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source radix_sorter.tcl -notrace
 # Log file: /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/impl_1/radix_sorter.vdi

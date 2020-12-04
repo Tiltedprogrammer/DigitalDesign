@@ -1,0 +1,377 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Sun Nov 29 22:31:08 2020
+# Process ID: 2144210
+# Current directory: /home/alexey.tyurin/DigitalDesign
+# Command line: vivado
+# Log file: /home/alexey.tyurin/DigitalDesign/vivado.log
+# Journal file: /home/alexey.tyurin/DigitalDesign/vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project /home/alexey.tyurin/DigitalDesign/task2/sorter.xpr
+close_project
+create_project radix_sorter /home/alexey.tyurin/DigitalDesign/task2/radix_sorter -part xc7z020clg484-1
+set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
+file mkdir /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new
+set_property target_language VHDL [current_project]
+close [ open /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/radix_sorter.vhd w ]
+add_files /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/radix_sorter.vhd
+file mkdir /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sim_1/new
+close [ open /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sim_1/new/test.vhd w ]
+add_files -fileset sim_1 /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sim_1/new/test.vhd
+file mkdir /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new
+close [ open /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new/constraints.xdc w ]
+add_files -fileset constrs_1 /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/constrs_1/new/constraints.xdc
+update_compile_order -fileset sources_1
+update_compile_order -fileset sim_1
+close [ open /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/memory.vhd w ]
+add_files /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/memory.vhd
+update_compile_order -fileset sources_1
+launch_simulation
+launch_simulation
+source radix_sorter.tcl
+set_property top sum [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+close_sim
+launch_simulation
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top test [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+source test.tcl
+relaunch_sim
+save_wave_config {/home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav.wcfg}
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+run all
+run all
+relaunch_sim
+relaunch_sim
+run all
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+run all
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+close_sim
+launch_simulation
+source test.tcl
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+relaunch_sim
+run all
+relaunch_sim
+run all
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+source test.tcl
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+close_sim
+close [ open /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/bst.vhd w ]
+add_files /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/bst.vhd
+update_compile_order -fileset sources_1
+launch_simulation
+launch_simulation
+export_ip_user_files -of_objects  [get_files /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/bst.vhd] -no_script -reset -force -quiet
+remove_files  /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/radix_sorter.srcs/sources_1/new/bst.vhd
+launch_simulation
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+run all
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+relaunch_sim
+close_sim
+launch_simulation
+source test.tcl
+relaunch_sim
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+source test.tcl
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+close_sim
+launch_simulation
+source test.tcl
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+source test.tcl
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+close_sim
+launch_simulation
+source test.tcl
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+run all
+relaunch_sim
+relaunch_sim
+run 5000 ns
+relaunch_sim
+run 5000 ns
+launch_runs synth_1 -jobs 8
+wait_on_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+open_run impl_1
+report_methodology -name ultrafast_methodology_1 -checks {PDRC-204 PDRC-190 TIMING-53 TIMING-52 TIMING-51 TIMING-50 TIMING-49 TIMING-48 TIMING-47 TIMING-46 TIMING-45 TIMING-44 TIMING-43 TIMING-42 TIMING-41 TIMING-40 TIMING-39 TIMING-38 TIMING-37 TIMING-36 TIMING-35 TIMING-34 TIMING-33 TIMING-32 TIMING-31 TIMING-30 TIMING-29 TIMING-28 TIMING-27 TIMING-26 TIMING-25 TIMING-24 TIMING-23 TIMING-22 TIMING-21 TIMING-20 TIMING-19 TIMING-18 TIMING-17 TIMING-16 TIMING-15 TIMING-14 TIMING-13 TIMING-12 TIMING-11 TIMING-10 TIMING-9 TIMING-8 TIMING-7 TIMING-6 TIMING-5 TIMING-4 TIMING-3 TIMING-2 TIMING-1 ULMTCS-2 ULMTCS-1 XDCV-2 XDCV-1 XDCH-2 XDCH-1 XDCC-8 XDCC-7 XDCC-6 XDCC-5 XDCC-4 XDCC-3 XDCC-2 XDCC-1 XDCB-6 XDCB-5 XDCB-4 XDCB-3 XDCB-2 XDCB-1 CLKC-77 CLKC-76 CLKC-54 CLKC-53 CLKC-78 CLKC-9 CLKC-5 CLKC-38 CLKC-37 CLKC-36 CLKC-35 CLKC-4 CLKC-18 CLKC-3 CLKC-2 CLKC-1 REQP-1959 LUTAR-1 HPDR-1 NTCN-1 CKLD-2 CKLD-1 DPIR-1 CKBF-1 AVAL-324 SYNTH-14 SYNTH-13 SYNTH-12 SYNTH-11 SYNTH-10 SYNTH-9 SYNTH-16 SYNTH-15 SYNTH-6 SYNTH-5 SYNTH-4}
+close_design
+open_run synth_1 -name synth_1
+close_design
+save_wave_config {/home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav1.wcfg}
+add_files -fileset sim_1 -norecurse /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav1.wcfg
+set_property xsim.view /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav1.wcfg [get_filesets sim_1]
+close_sim
+open_run synth_1 -name synth_1
+close_design
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav1.wcfg
+source test.tcl
+open_run synth_1 -name synth_1
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task2/radix_sorter/test_behav1.wcfg
+source test.tcl
+save_project_as task_2_radix_sort /home/alexey.tyurin/DigitalDesign/task_2_radix_sort -force
+import_files
+run 5000 ns
+reset_run impl_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+open_run impl_1
+close_design
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top radix_sorter [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+reset_run impl_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+close_design
+open_run impl_1
+close_design
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sim_1/imports/radix_sorter/test_behav1.wcfg
+source test.tcl
+run 5000 ns
+relaunch_sim
+run all
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+open_run impl_1
+relaunch_sim
+run all
+run 8000 ns
+relaunch_sim
+run 8000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+relaunch_sim
+run 8000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+reset_run impl_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+reset_run impl_1
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+relaunch_sim
+run 8000 ns
+relaunch_sim
+run 8000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+relaunch_sim
+run 8000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sim_1/imports/radix_sorter/test_behav1.wcfg
+source test.tcl
+run 8000 ns
+relaunch_sim
+relaunch_sim
+run 8000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sim_1/imports/radix_sorter/test_behav1.wcfg
+source test.tcl
+run 8000 ns
+relaunch_sim
+run all
+reset_run impl_1
+relaunch_sim
+run 9000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sim_1/imports/radix_sorter/test_behav1.wcfg
+source test.tcl
+run 9000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+close_sim
+launch_simulation
+open_wave_config /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/sim_1/imports/radix_sorter/test_behav1.wcfg
+source test.tcl
+run 9000 ns
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+relaunch_sim

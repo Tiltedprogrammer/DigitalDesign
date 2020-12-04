@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-| Date         : Thu Dec  3 17:41:41 2020
+| Date         : Fri Dec  4 21:35:43 2020
 | Host         : UNIT-2060 running 64-bit Ubuntu 20.04.1 LTS
 | Command      : report_control_sets -verbose -file radix_sorter_control_sets_placed.rpt
 | Design       : radix_sorter
@@ -61,9 +61,9 @@ Table of Contents
 | No           | No                    | No                     |               3 |            2 |
 | No           | No                    | Yes                    |               0 |            0 |
 | No           | Yes                   | No                     |               0 |            0 |
-| Yes          | No                    | No                     |              72 |           33 |
+| Yes          | No                    | No                     |              72 |           32 |
 | Yes          | No                    | Yes                    |               0 |            0 |
-| Yes          | Yes                   | No                     |             189 |           64 |
+| Yes          | Yes                   | No                     |             189 |           63 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
@@ -74,19 +74,19 @@ Table of Contents
 |  Clock Signal  |          Enable Signal         |      Set/Reset Signal     | Slice Load Count | Bel Load Count | Bels / Slice |
 +----------------+--------------------------------+---------------------------+------------------+----------------+--------------+
 |  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0         |                           |                1 |              1 |         1.00 |
-|  CLK_IBUF_BUFG | current[31]_i_2_n_0            |                           |                1 |              1 |         1.00 |
-|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  |                           |                1 |              1 |         1.00 |
 |  CLK_IBUF_BUFG | RST_IBUF                       | OUT_DATA_VALID_i_1_n_0    |                1 |              1 |         1.00 |
 |  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0         |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | current[31]_i_2_n_0            |                           |                1 |              1 |         1.00 |
+|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  |                           |                1 |              1 |         1.00 |
 |  CLK_IBUF_BUFG |                                |                           |                2 |              3 |         1.50 |
 |  CLK_IBUF_BUFG | sort_state[3]_i_1_n_0          |                           |                3 |              4 |         1.33 |
-|  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0         | bin_head_r[31]_i_1_n_0    |               12 |             31 |         2.58 |
-|  CLK_IBUF_BUFG | counter[31]_i_2_n_0            | counter[31]_i_1_n_0       |               11 |             31 |         2.82 |
-|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  | j[31]_i_1_n_0             |               13 |             31 |         2.38 |
-|  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0         | bin_head_l[31]_i_1_n_0    |                9 |             31 |         3.44 |
-|  CLK_IBUF_BUFG | val_to_store[31]_i_1_n_0       |                           |               15 |             32 |         2.13 |
-|  CLK_IBUF_BUFG | OUT_DATA[31]_i_1_n_0           |                           |               11 |             32 |         2.91 |
+|  CLK_IBUF_BUFG | counter[31]_i_2_n_0            | counter[31]_i_1_n_0       |               16 |             31 |         1.94 |
+|  CLK_IBUF_BUFG | j[31]_i_2_n_0                  | j[31]_i_1_n_0             |                8 |             31 |         3.88 |
+|  CLK_IBUF_BUFG | bin_head_l[31]_i_2_n_0         | bin_head_l[31]_i_1_n_0    |               10 |             31 |         3.10 |
+|  CLK_IBUF_BUFG | bin_head_r[31]_i_2_n_0         | bin_head_r[31]_i_1_n_0    |               10 |             31 |         3.10 |
 |  CLK_IBUF_BUFG | bin_iteration[31]_i_2_n_0      | bin_iteration[31]_i_1_n_0 |                9 |             32 |         3.56 |
+|  CLK_IBUF_BUFG | val_to_store[31]_i_1_n_0       |                           |               14 |             32 |         2.29 |
+|  CLK_IBUF_BUFG | OUT_DATA[31]_i_1_n_0           |                           |               11 |             32 |         2.91 |
 |  CLK_IBUF_BUFG | current[31]_i_2_n_0            | current[31]_i_1_n_0       |                9 |             32 |         3.56 |
 |  CLK_IBUF_BUFG | bin_right                      |                           |               11 |             44 |         4.00 |
 |  CLK_IBUF_BUFG | bin_left                       |                           |               11 |             44 |         4.00 |
