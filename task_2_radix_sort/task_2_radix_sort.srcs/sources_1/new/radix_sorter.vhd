@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity radix_sorter is
-  generic(MEM_SIZE : integer := 2048; NUM_SIZE : integer :=32);
+  generic(MEM_SIZE : integer := 1024; NUM_SIZE : integer :=32);
   port (CLK : in std_logic; --clock
         RST : in std_logic; --reset
         
@@ -131,6 +131,7 @@ input : process(CLK,RST)
             sort_state <= init; 
             bin_iteration <= 0; 
             j <= 0;
+            
             memory_addr <= 0;
             left_addr <= 0;
             right_addr <= 0;
@@ -158,9 +159,11 @@ input : process(CLK,RST)
                 case sort_state is
                     
                     when init =>
+                        
                         j <= 0;
                         bin_head_r <= 0;
                         bin_head_l <= 0;
+                        
                         if bin_iteration < NUM_SIZE then memory_addr <= j; sort_state <= pack_bin;
                         else
                             we_memory <= '0';
@@ -199,7 +202,6 @@ input : process(CLK,RST)
                                             
                     when unpack_bin_l =>
                         if j < bin_head_l then 
---                            val_to_store <= bin_left(j);
                             left_addr <= j;
                             sort_state <= wait_left;
                         else j <= 0; sort_state <= unpack_bin_r; end if;
@@ -215,14 +217,13 @@ input : process(CLK,RST)
                         
                     when unpack_bin_r =>
                         if j < bin_head_r then
---                         val_to_store <= bin_right(j); 
                          right_addr <= j;
                          sort_state <= wait_right;
                         else  j <= 0; bin_iteration <= bin_iteration + 1; sort_state <= init; end if;
                     
                     when wait_right =>
                         j <= j + 1;
-                        memory_addr <= j + bin_head_l;
+                        memory_addr <= memory_addr + 1;
                         sort_state <= read_right;
                     
                     when read_right =>

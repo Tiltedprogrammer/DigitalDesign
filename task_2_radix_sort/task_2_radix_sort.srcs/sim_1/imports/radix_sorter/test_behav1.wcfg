@@ -10,15 +10,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="9510809fs"></ZoomStartTime>
-      <ZoomEndTime time="10097839fs"></ZoomEndTime>
-      <Cursor1Time time="10000000fs"></Cursor1Time>
+      <ZoomStartTime time="851900fs"></ZoomStartTime>
+      <ZoomEndTime time="1029620fs"></ZoomEndTime>
+      <Cursor1Time time="1000000fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="533"></NameColumnWidth>
-      <ValueColumnWidth column_width="243"></ValueColumnWidth>
+      <NameColumnWidth column_width="455"></NameColumnWidth>
+      <ValueColumnWidth column_width="212"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
+   <WVObjectSize size="23" />
    <wvobject type="logic" fp_name="/test/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -27,28 +27,93 @@
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/test/input">
-      <obj_property name="ElementShortName">input[31:0]</obj_property>
-      <obj_property name="ObjectShortName">input[31:0]</obj_property>
+   <wvobject type="array" fp_name="/test/DUT/memory_in">
+      <obj_property name="ElementShortName">memory_in[31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory_in[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/input_ready">
-      <obj_property name="ElementShortName">input_ready</obj_property>
-      <obj_property name="ObjectShortName">input_ready</obj_property>
+   <wvobject type="array" fp_name="/test/DUT/memory_out">
+      <obj_property name="ElementShortName">memory_out[31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory_out[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/input_end">
-      <obj_property name="ElementShortName">input_end</obj_property>
-      <obj_property name="ObjectShortName">input_end</obj_property>
+   <wvobject type="array" fp_name="/test/DUT/out_buffer">
+      <obj_property name="ElementShortName">out_buffer[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_buffer[31:0]</obj_property>
    </wvobject>
-   <wvobject type="array" fp_name="/test/output">
-      <obj_property name="ElementShortName">output[31:0]</obj_property>
-      <obj_property name="ObjectShortName">output[31:0]</obj_property>
+   <wvobject type="logic" fp_name="/test/ready_to_read">
+      <obj_property name="ElementShortName">ready_to_read</obj_property>
+      <obj_property name="ObjectShortName">ready_to_read</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/output_ready">
-      <obj_property name="ElementShortName">output_ready</obj_property>
-      <obj_property name="ObjectShortName">output_ready</obj_property>
+   <wvobject type="array" fp_name="/test/out_data">
+      <obj_property name="ElementShortName">out_data[31:0]</obj_property>
+      <obj_property name="ObjectShortName">out_data[31:0]</obj_property>
    </wvobject>
-   <wvobject type="logic" fp_name="/test/output_end">
-      <obj_property name="ElementShortName">output_end</obj_property>
-      <obj_property name="ObjectShortName">output_end</obj_property>
+   <wvobject type="other" fp_name="/test/DUT/memory_addr">
+      <obj_property name="ElementShortName">memory_addr</obj_property>
+      <obj_property name="ObjectShortName">memory_addr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/counter">
+      <obj_property name="ElementShortName">counter</obj_property>
+      <obj_property name="ObjectShortName">counter</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/memory/a">
+      <obj_property name="ElementShortName">a</obj_property>
+      <obj_property name="ObjectShortName">a</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/memory_addr">
+      <obj_property name="ElementShortName">memory_addr</obj_property>
+      <obj_property name="ObjectShortName">memory_addr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bin_iteration">
+      <obj_property name="ElementShortName">bin_iteration</obj_property>
+      <obj_property name="ObjectShortName">bin_iteration</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/state">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/sort_state">
+      <obj_property name="ElementShortName">sort_state</obj_property>
+      <obj_property name="ObjectShortName">sort_state</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/test/DUT/we_left">
+      <obj_property name="ElementShortName">we_left</obj_property>
+      <obj_property name="ObjectShortName">we_left</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/j">
+      <obj_property name="ElementShortName">j</obj_property>
+      <obj_property name="ObjectShortName">j</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bin_head_l">
+      <obj_property name="ElementShortName">bin_head_l</obj_property>
+      <obj_property name="ObjectShortName">bin_head_l</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/left_addr">
+      <obj_property name="ElementShortName">left_addr</obj_property>
+      <obj_property name="ObjectShortName">left_addr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/right_addr">
+      <obj_property name="ElementShortName">right_addr</obj_property>
+      <obj_property name="ObjectShortName">right_addr</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/val_to_store">
+      <obj_property name="ElementShortName">val_to_store[31:0]</obj_property>
+      <obj_property name="ObjectShortName">val_to_store[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/memory/memory">
+      <obj_property name="ElementShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/bin_left/memory">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="label">left</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/bin_right/memory">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="ObjectShortName">memory[1023:0][31:0]</obj_property>
+      <obj_property name="label">right</obj_property>
    </wvobject>
 </wave_config>

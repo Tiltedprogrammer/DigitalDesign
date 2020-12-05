@@ -1,7 +1,7 @@
 Copyright 1986-2020 Xilinx, Inc. All Rights Reserved.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2020.1 (lin64) Build 2902540 Wed May 27 19:54:35 MDT 2020
-| Date             : Sun Dec  6 00:12:09 2020
+| Date             : Sun Dec  6 02:35:04 2020
 | Host             : UNIT-2060 running 64-bit Ubuntu 20.04.1 LTS
 | Command          : report_power -file radix_sorter_power_routed.rpt -pb radix_sorter_power_summary_routed.pb -rpx radix_sorter_power_routed.rpx
 | Design           : radix_sorter
@@ -30,10 +30,10 @@ Table of Contents
 ----------
 
 +--------------------------+--------------+
-| Total On-Chip Power (W)  | 0.133        |
+| Total On-Chip Power (W)  | 0.128        |
 | Design Power Budget (W)  | Unspecified* |
 | Power Budget Margin (W)  | NA           |
-| Dynamic (W)              | 0.028        |
+| Dynamic (W)              | 0.023        |
 | Device Static (W)        | 0.105        |
 | Effective TJA (C/W)      | 11.5         |
 | Max Ambient (C)          | 83.5         |
@@ -53,16 +53,17 @@ Table of Contents
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
 | Clocks         |     0.005 |        3 |       --- |             --- |
-| Slice Logic    |     0.004 |     1066 |       --- |             --- |
-|   LUT as Logic |     0.003 |      464 |     53200 |            0.87 |
-|   CARRY4       |    <0.001 |       75 |     13300 |            0.56 |
-|   Register     |    <0.001 |      418 |    106400 |            0.39 |
-|   Others       |     0.000 |       10 |       --- |             --- |
-| Signals        |     0.006 |      967 |       --- |             --- |
-| Block RAM      |     0.010 |        3 |       140 |            2.14 |
-| I/O            |     0.004 |       71 |       200 |           35.50 |
+| Slice Logic    |     0.003 |      946 |       --- |             --- |
+|   LUT as Logic |     0.003 |      347 |     53200 |            0.65 |
+|   CARRY4       |    <0.001 |       67 |     13300 |            0.50 |
+|   Register     |    <0.001 |      420 |    106400 |            0.39 |
+|   F7/F8 Muxes  |    <0.001 |        3 |     53200 |           <0.01 |
+|   Others       |     0.000 |       12 |       --- |             --- |
+| Signals        |     0.005 |      849 |       --- |             --- |
+| Block RAM      |     0.008 |        3 |       140 |            2.14 |
+| I/O            |     0.002 |       71 |       200 |           35.50 |
 | Static Power   |     0.105 |          |           |                 |
-| Total          |     0.133 |          |           |                 |
+| Total          |     0.128 |          |           |                 |
 +----------------+-----------+----------+-----------+-----------------+
 
 
@@ -72,11 +73,11 @@ Table of Contents
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
 | Source    | Voltage (V) | Total (A) | Dynamic (A) | Static (A) | Powerup (A) | Budget (A)  | Margin (A) |
 +-----------+-------------+-----------+-------------+------------+-------------+-------------+------------+
-| Vccint    |       1.000 |     0.031 |       0.023 |      0.008 |       NA    | Unspecified | NA         |
-| Vccaux    |       1.800 |     0.011 |       0.000 |      0.010 |       NA    | Unspecified | NA         |
+| Vccint    |       1.000 |     0.028 |       0.021 |      0.008 |       NA    | Unspecified | NA         |
+| Vccaux    |       1.800 |     0.010 |       0.000 |      0.010 |       NA    | Unspecified | NA         |
 | Vcco33    |       3.300 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco25    |       2.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
-| Vcco18    |       1.800 |     0.003 |       0.002 |      0.001 |       NA    | Unspecified | NA         |
+| Vcco18    |       1.800 |     0.002 |       0.001 |      0.001 |       NA    | Unspecified | NA         |
 | Vcco15    |       1.500 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco135   |       1.350 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
 | Vcco12    |       1.200 |     0.000 |       0.000 |      0.000 |       NA    | Unspecified | NA         |
@@ -148,9 +149,9 @@ Table of Contents
 +--------------+-----------+
 | Name         | Power (W) |
 +--------------+-----------+
-| radix_sorter |     0.028 |
+| radix_sorter |     0.023 |
 |   bin_left   |     0.002 |
-|   bin_right  |     0.004 |
+|   bin_right  |     0.002 |
 |   memory     |     0.005 |
 +--------------+-----------+
 
