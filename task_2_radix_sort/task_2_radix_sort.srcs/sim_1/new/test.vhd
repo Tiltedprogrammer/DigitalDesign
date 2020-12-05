@@ -42,9 +42,9 @@ process is begin
     rst <= '0';
     delay(1,clk);
     input_ready <= '1';
-    input <= to_signed(256,32);
-    delay(1,clk);
     input <= to_signed(223,32);
+    delay(1,clk);
+    input <= to_signed(256,32);
     delay(1,clk);
     input <= to_signed(265,32);
     delay(1,clk);
