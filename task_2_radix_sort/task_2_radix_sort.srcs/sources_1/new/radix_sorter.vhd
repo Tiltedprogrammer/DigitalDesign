@@ -56,7 +56,7 @@ type SORT_TYPE is (init,pack_bin,unpack_bin_l,unpack_bin_r,store_to_left,store_t
 signal state: STATE_TYPE;
 signal sort_state : SORT_TYPE;
 
-signal counter : integer;
+signal counter : integer range 0 to MEM_SIZE - 1;
 
 
 --type ram_type is array (MEM_SIZE - 1 downto 0) of signed(NUM_SIZE - 1 downto 0);
@@ -72,14 +72,13 @@ signal counter : integer;
 --attribute ram_style of bin_left : signal is "block";
 --attribute ram_style of bin_right : signal is "block";
 
-signal bin_head_l : integer;
-signal bin_head_r : integer;
-signal j : integer;
+signal bin_head_l : integer range 0 to MEM_SIZE - 1;
+signal bin_head_r : integer range 0 to MEM_SIZE - 1;
+signal j : integer range 0 to MEM_SIZE - 1;
 
-signal bin_iteration : integer;
+signal bin_iteration : integer range 0 to 32;
 
 signal val_to_store : signed(NUM_SIZE - 1 downto 0);
-signal place_to_store : integer;
 
 -- bram stuff
 component bram
@@ -90,17 +89,17 @@ end component;
 signal we_memory : std_logic;
 signal memory_out : signed(31 downto 0);
 signal memory_in : signed(31 downto 0);
-signal memory_addr : integer;
+signal memory_addr : integer range 0 to MEM_SIZE - 1;
 
 signal we_left : std_logic;
 signal left_out : signed(31 downto 0);
 signal left_in : signed(31 downto 0);
-signal left_addr : integer;
+signal left_addr : integer range 0 to MEM_SIZE - 1;
 
 signal we_right : std_logic;
 signal right_out : signed(31 downto 0);
 signal right_in : signed(31 downto 0);
-signal right_addr : integer;
+signal right_addr : integer range 0 to MEM_SIZE - 1;
 
 signal out_buffer : signed(31 downto 0);
 
