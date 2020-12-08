@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity radix_sorter is
-  generic(MEM_SIZE : integer := 1024; NUM_SIZE : integer :=32);
+  generic(MEM_SIZE : integer := 4096; NUM_SIZE : integer :=32);
   port (CLK : in std_logic; --clock
         RST : in std_logic; --reset
         
@@ -76,7 +76,7 @@ signal bin_head_l : integer range 0 to MEM_SIZE - 1;
 signal bin_head_r : integer range 0 to MEM_SIZE - 1;
 signal j : integer range 0 to MEM_SIZE - 1;
 
-signal bin_iteration : integer range 0 to 32;
+signal bin_iteration : integer range 0 to NUM_SIZE;
 
 signal val_to_store : signed(NUM_SIZE - 1 downto 0);
 
@@ -162,18 +162,16 @@ input : process(CLK,RST)
                         j <= 0;
                         bin_head_r <= 0;
                         bin_head_l <= 0;
+                        memory_addr <= 0;
                         
                         if bin_iteration < NUM_SIZE then memory_addr <= j; sort_state <= pack_bin;
-                        else
-                            we_memory <= '0';
-                            memory_addr <= 0; 
+                        else 
                             state <= wait_for_buffer;
                         end if;
                         
                
                     when pack_bin =>
-                        if j < counter then
-                            memory_addr <= j; 
+                        if j < counter then 
                             sort_state <= read_from_memory; 
                         else
                             sort_state <= unpack_bin_l; j <= 0; end if;
