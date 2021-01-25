@@ -32,7 +32,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity radix_sorter is
-  generic(MEM_SIZE : integer := 4096; NUM_SIZE : integer :=32);
+  generic(MEM_SIZE : integer := 12; NUM_SIZE : integer :=32);
   port (CLK : in std_logic; --clock
         RST : in std_logic; --reset
         
@@ -83,25 +83,25 @@ signal val_to_store : signed(NUM_SIZE - 1 downto 0);
 -- bram stuff
 component bram
     generic(MEM_SIZE :integer := MEM_SIZE; NUM_SIZE: integer := NUM_SIZE);
-    port(a : integer; clk : in std_logic; d_input : in signed(31 downto 0); we : in std_logic; d_output : out signed(31 downto 0));
+    port(a : integer; clk : in std_logic; d_input : in signed(NUM_SIZE - 1 downto 0); we : in std_logic; d_output : out signed(NUM_SIZE - 1 downto 0));
 end component;
     
 signal we_memory : std_logic;
-signal memory_out : signed(31 downto 0);
-signal memory_in : signed(31 downto 0);
+signal memory_out : signed(NUM_SIZE - 1 downto 0);
+signal memory_in : signed(NUM_SIZE - 1 downto 0);
 signal memory_addr : integer range 0 to MEM_SIZE - 1;
 
 signal we_left : std_logic;
-signal left_out : signed(31 downto 0);
-signal left_in : signed(31 downto 0);
+signal left_out : signed(NUM_SIZE - 1 downto 0);
+signal left_in : signed(NUM_SIZE - 1 downto 0);
 signal left_addr : integer range 0 to MEM_SIZE - 1;
 
 signal we_right : std_logic;
-signal right_out : signed(31 downto 0);
-signal right_in : signed(31 downto 0);
+signal right_out : signed(NUM_SIZE - 1 downto 0);
+signal right_in : signed(NUM_SIZE - 1 downto 0);
 signal right_addr : integer range 0 to MEM_SIZE - 1;
 
-signal out_buffer : signed(31 downto 0);
+signal out_buffer : signed(NUM_SIZE - 1 downto 0);
 
         
 begin

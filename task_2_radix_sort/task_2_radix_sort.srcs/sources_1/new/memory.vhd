@@ -42,7 +42,7 @@ entity bram is
 end bram;
 
 architecture syn of bram is
-    type mem is array (MEM_SIZE - 1 downto 0) of signed(31 downto 0);
+    type mem is array (MEM_SIZE - 1 downto 0) of signed(NUM_SIZE - 1 downto 0);
     signal memory : mem; 
 begin
     process(clk) begin

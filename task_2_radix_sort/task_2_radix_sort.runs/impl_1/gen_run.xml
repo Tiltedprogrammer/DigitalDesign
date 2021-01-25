@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1607421751">
+<GenRun Id="impl_1" LaunchPart="xc7z020clg484-1" LaunchTime="1608051983">
   <File Type="WBT-USG" Name="usage_statistics_webtalk.html"/>
   <File Type="BITSTR-SYSDEF" Name="radix_sorter.sysdef"/>
   <File Type="BITSTR-LTX" Name="debug_nets.ltx"/>
@@ -21,7 +21,6 @@
   <File Type="BG-BIT" Name="radix_sorter.bit"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-RPX" Name="radix_sorter_bus_skew_postroute_physopted.rpx"/>
   <File Type="POSTROUTE-PHYSOPT-BUS-SKEW-PB" Name="radix_sorter_bus_skew_postroute_physopted.pb"/>
-  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="radix_sorter_bus_skew_postroute_physopted.rpt"/>
   <File Type="RDI-RDI" Name="radix_sorter.vdi"/>
   <File Type="POSTROUTE-PHYSOPT-TIMING-RPX" Name="radix_sorter_timing_summary_postroute_physopted.rpx"/>
   <File Type="POSTROUTE-PHYSOPT-TIMING-PB" Name="radix_sorter_timing_summary_postroute_physopted.pb"/>
@@ -75,6 +74,8 @@
   <File Type="REPORTS-TCL" Name="radix_sorter_reports.tcl"/>
   <File Type="ROUTE-BUS-SKEW-PB" Name="radix_sorter_bus_skew_routed.pb"/>
   <File Type="PA-TCL" Name="radix_sorter.tcl"/>
+  <File Type="POSTROUTE-PHYSOPT-BUS-SKEW" Name="radix_sorter_bus_skew_postroute_physopted.rpt"/>
+  <File Type="PA-DCP" Name="radix_sorter.dcp"/>
   <FileSet Name="sources" Type="DesignSrcs" RelSrcDir="$PSRCDIR/sources_1">
     <Filter Type="Srcs"/>
     <File Path="$PSRCDIR/sources_1/new/memory.vhd">

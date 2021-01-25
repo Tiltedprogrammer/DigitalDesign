@@ -1,0 +1,9 @@
+# compile vhdl design source files
+vhdl2008 xil_defaultlib  \
+"../../../../task_3_Floyd-Warshall.srcs/sources_1/new/memory.vhd" \
+
+vhdl xil_defaultlib  \
+"../../../../task_3_Floyd-Warshall.srcs/sim_1/new/memory_test.vhd" \
+
+# Do not sort compile order
+nosort

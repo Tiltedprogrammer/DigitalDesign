@@ -122,29 +122,12 @@ set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
   set_param chipscope.maxJobs 4
-OPTRACE "create in-memory project" START { }
-  create_project -in_memory -part xc7z020clg484-1
-  set_property board_part em.avnet.com:zed:part0:1.4 [current_project]
-  set_property design_mode GateLvl [current_fileset]
-  set_param project.singleFileAddWarning.threshold 0
-OPTRACE "create in-memory project" END { }
-OPTRACE "set parameters" START { }
+  reset_param project.defaultXPMLibraries 
+  open_checkpoint /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/impl_1/radix_sorter.dcp
   set_property webtalk.parent_dir /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/wt [current_project]
   set_property parent.project_path /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.xpr [current_project]
   set_property ip_output_repo /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
-OPTRACE "set parameters" END { }
-OPTRACE "add files" START { }
-  add_files -quiet /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.runs/synth_1/radix_sorter.dcp
-OPTRACE "read constraints: implementation" START { }
-  read_xdc /home/alexey.tyurin/DigitalDesign/task_2_radix_sort/task_2_radix_sort.srcs/constrs_1/new/constraints.xdc
-OPTRACE "read constraints: implementation" END { }
-OPTRACE "add files" END { }
-OPTRACE "link_design" START { }
-  link_design -top radix_sorter -part xc7z020clg484-1
-OPTRACE "link_design" END { }
-OPTRACE "gray box cells" START { }
-OPTRACE "gray box cells" END { }
 OPTRACE "init_design_reports" START { REPORT }
 OPTRACE "init_design_reports" END { }
 OPTRACE "init_design_write_hwdef" START { }
