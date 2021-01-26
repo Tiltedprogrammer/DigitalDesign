@@ -2,8 +2,8 @@
 # Webtalk v2020.1 (64-bit)
 # SW Build 2902540 on Wed May 27 19:54:35 MDT 2020
 # IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
-# Start of session at: Tue Jan 26 01:15:29 2021
-# Process ID: 210745
+# Start of session at: Tue Jan 26 01:13:46 2021
+# Process ID: 209952
 # Current directory: /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim
 # Command line: wbtcv -mode batch -source /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/webtalk.log

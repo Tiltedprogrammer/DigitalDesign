@@ -21,18 +21,18 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity bram is
-    generic(ROWS : integer := 64; COLUMNS : integer := 64 * 32);
-    port ( addr : in integer range 0 to ROWS - 1;
+    generic(NUMBER_OF_VERTICES : integer := 64);
+    port ( addr : in integer range 0 to NUMBER_OF_VERTICES - 1;
            clk : in std_logic;
-           d_input : in std_logic_vector(COLUMNS-1 downto 0);
+           d_input : in std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1);
            we : in std_logic;
-           d_output : out std_logic_vector(COLUMNS-1 downto 0)
+           d_output : out std_logic_vector(0 to (NUMBER_OF_VERTICES * 32) - 1)
     ); 
 end bram;
 
 architecture syn of bram is
---    type mem is array (ROWS - 1 downto 0) of tarr(COLUMNS - 1 downto 0);
-    type mem is array (ROWS - 1 downto 0) of std_logic_vector(COLUMNS-1 downto 0);
+--    type mem is array (ROWS - 1 downto 0) of tarr(COLUMNS - 1 downto 0);  it is sytesized down to lots of LUT and FF instead of BRAM
+    type mem is array (0 to NUMBER_OF_VERTICES - 1) of std_logic_vector(0 to (NUMBER_OF_VERTICES * 32) - 1);
     signal memory : mem;
 begin
     process(clk) begin
@@ -45,7 +45,6 @@ begin
     end if;
     
     end process;
---   result := to_signed(a) + to_signed(b);
    
 
 end syn;
