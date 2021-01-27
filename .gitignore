@@ -89,3 +89,6 @@ vivado.jou
 Xilinx_Unified_2020.1_0602_1208/
 *.cahe*
 *.runs*
+!*/test_files/*
+!*/test_files/*/*
+
