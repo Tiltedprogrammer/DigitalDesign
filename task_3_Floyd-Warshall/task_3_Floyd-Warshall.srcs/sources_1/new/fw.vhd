@@ -11,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity fw is
-    generic(NUMBER_OF_VERTICES : integer := 64; NUM_SIZE : integer :=32);
+    generic(NUMBER_OF_VERTICES : integer := 32; NUM_SIZE : integer :=32);
     port (clk : in std_logic; --clock
         rst : in std_logic; --reset
         
@@ -64,15 +64,9 @@ function minimum (a : in std_logic_vector; b : in std_logic_vector) return std_l
 end minimum;
 
 signal param_value_buffer1 : integer;
-signal param_value_buffer2 : integer;
-signal param_value_buffer3 : integer;
-signal param_value_buffer4 : integer;
-
 
 signal param_addr_buffer1 : integer range 0 to NUMBER_OF_VERTICES - 1;
-signal param_addr_buffer2 : integer range 0 to NUMBER_OF_VERTICES - 1;
-signal param_addr_buffer3 : integer range 0 to NUMBER_OF_VERTICES - 1;
-signal param_addr_buffer4 : integer range 0 to NUMBER_OF_VERTICES - 1;
+
 
 component bram
     generic(NUMBER_OF_VERTICES : integer := NUMBER_OF_VERTICES);
@@ -82,23 +76,27 @@ component bram
          d_output : out std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1));
 end component;
 
---signal current_row : std_logic_vector((NUMBER_OF_VERTICES * 32 )-1 downto 0);
 
 type STATE_TYPE is (non_reseted,reseting,ready_to_read,processing,finished);
-type READ_TYPE is (init,read,finished,wait_before_read);
-type WRITE_TYPE is (writing,waiting);
+type READ_TYPE is (init,read,finished,wait_before_read,write_to_row,write_to_memory);
 type FW_TYPE is (init, read_i,read_k,find_min,write_i,read_ik);
 
 signal state : STATE_TYPE := non_reseted;
 signal read_state : READ_TYPE;
 signal fw_state : FW_TYPE;
-signal write_state : WRITE_TYPE;
 
 signal column : integer range 0 to NUMBER_OF_VERTICES - 1;
 
 signal k_counter : integer range 0 to NUMBER_OF_VERTICES;
 signal i_counter : integer range 0 to NUMBER_OF_VERTICES;
 
+signal ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+signal kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+signal ik_value : std_logic_vector(0 to NUM_SIZE - 1);
+signal ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
+signal kj_value : std_logic_vector(0 to NUM_SIZE - 1);
+
+signal current_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1);
 begin
 
 graph: bram
@@ -107,12 +105,13 @@ graph: bram
 
 fw: process (clk,rst)
 
-variable current_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
-variable ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
-variable kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
-variable ik_value : std_logic_vector(0 to NUM_SIZE - 1);
-variable ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
-variable kj_value : std_logic_vector(0 to NUM_SIZE - 1);
+--variable current_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+--variable ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+--variable kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+--variable ik_value : std_logic_vector(0 to NUM_SIZE - 1);
+--variable ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
+--variable kj_value : std_logic_vector(0 to NUM_SIZE - 1);
+variable tmp: std_logic_vector(0 to NUM_SIZE - 1);
 
 begin
 
@@ -127,7 +126,9 @@ begin
         
         case state is
             when non_reseted => 
+                read_state <= init;
                 state <= reseting;
+                fw_state <= init;
                 bram_addr <= 0;
                 bram_in_value <= (others => '0'); --how to declare infinity?
                 bram_we <= '1';
@@ -161,15 +162,23 @@ begin
                                 read_state <= read;  
                             when read => 
                                 
-                                current_row := bram_out_value;
+                                current_row <= bram_out_value;
 --                                report "current_row is " & to_string(current_row);
-                                current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1) :=  std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
-                                bram_in_value <= current_row;
-                                bram_we <= '1';
+                                tmp := std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
+                                                     
+                                read_state <= write_to_row;
+                            when write_to_row =>
                                 
-                                out_ready_to_read <= '1';                                
+                                current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1) <= tmp; --std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
+                                
+                          
+                                read_state <= write_to_memory;
+                            when write_to_memory =>  
+                                
+                                bram_we <= '1';
+                                bram_in_value <= current_row;
+                                out_ready_to_read <= '1';
                                 read_state <= init;
-    
                             when finished =>
                                 --nothing here actually
                         end case;
@@ -188,9 +197,15 @@ begin
                                 
                                 read_state <= read;
                             when read => 
-                                current_row := bram_out_value;
-                                report "current_row is " & to_string(current_row);
-                                current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1) :=  std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
+                                current_row <= bram_out_value;
+                                tmp := std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
+--                                report "current_row is " & to_string(current_row);
+                                read_state <= write_to_row;
+                                
+                            when write_to_row =>
+                                current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1) <=  tmp;--std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
+                                read_state <= write_to_memory;
+                            when write_to_memory =>
                                 bram_in_value <= current_row;
                                 bram_we <= '1';
                                  
@@ -198,80 +213,71 @@ begin
                                 read_state <= finished;
                             when finished => 
                                 bram_we <= '0';
+                                out_ready_to_read <= '0';
                                 state <= processing;
                         end case;  
                     end if;
                 end if;
                         
                 when processing =>
---                    if k_counter < NUMBER_OF_VERTICES then
---                        if i_counter <= NUMBER_OF_VERTICES then
---                            case fw_state is --(init, read_i,read_k,find_min);
---                                when init => 
---                                    bram_we <= '0';
---                                    --read i_th row
---                                    if i_counter = NUMBER_OF_VERTICES then
---                                        k_counter <= k_counter + 1;
---                                        bram_addr <= 0;
---                                        i_counter <= 0;
---                                    else bram_addr <= i_counter;
---                                    end if; --need to wait
---                                    fw_state <= read_i;
---                                when read_i =>
---                                    bram_addr <= k_counter;
---                                    fw_state <= read_k;
---                                when read_k =>
---                                    ith_row := bram_out_value;
+                    if k_counter < NUMBER_OF_VERTICES then
+                        if i_counter <= NUMBER_OF_VERTICES then
+                            case fw_state is --(init, read_i,read_k,find_min);
+                                when init => 
+                                    bram_we <= '0';
+                                    --read i_th row
+                                    if i_counter = NUMBER_OF_VERTICES then
+                                        k_counter <= k_counter + 1;
+                                        bram_addr <= 0;
+                                        i_counter <= 0;
+                                    else bram_addr <= i_counter;
+                                    end if; --need to wait
+                                    fw_state <= read_i;
+                                when read_i =>
+                                    bram_addr <= k_counter;
+                                    fw_state <= read_k;
+                                when read_k =>
+                                    ith_row <= bram_out_value;
                                     
---                                    fw_state <= read_ik;
+                                    fw_state <= read_ik;
                                     
---                                when read_ik =>
---                                    ik_value := ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1);
---                                    bram_addr <= i_counter;
---                                    fw_state <= find_min;
---                                when find_min =>
+                                when read_ik =>
+                                    ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1);
+                                    kth_row <= bram_out_value;
+                                    bram_addr <= i_counter;
+                                    fw_state <= find_min;
+                                when find_min =>
 --                                    kth_row := bram_out_value;
---                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
-----                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
+                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
+--                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
                                         
-----                                        if ik_value = (0 to NUM_SIZE - 1 => '1') then
-                                         
-----                                            ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) := minimum(
-----                                                ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1),
-----                                                kj_value);
-----                                        else 
-----                                            if kj_value = (0 to NUM_SIZE - 1 => '1') then
-----                                                ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) := minimum(
-----                                                ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1),
-----                                                ik_value);
-----                                            else
---                                            if  to_integer(signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
---                                                to_integer(signed(ik_value)) + to_integer(signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
---                                            ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) := 
---                                                std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
---                                            end if;
-----                                        end if;
+                                        
+                                            if  to_integer(signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
+                                                to_integer(signed(ik_value)) + to_integer(signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
+                                            ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
+                                                std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
+                                            end if;
                                           
---                                    end loop;
---                                    i_counter <= i_counter + 1;
---                                    fw_state <= write_i;
+                                    end loop;
+                                    i_counter <= i_counter + 1;
+                                    fw_state <= write_i;
                                     
---                                 when write_i =>
+                                 when write_i =>
 --                                    --waiting
---                                    bram_we <= '1';
---                                    bram_in_value <= ith_row;
---                                    fw_state <= init;
+                                    bram_we <= '1';
+                                    bram_in_value <= ith_row;
+                                    fw_state <= init;
                                     
---                            end case; 
+                            end case; 
 --                         --read i_th row
---                         --then k_th row
+                         --then k_th row
                             
---                        end if;
---                    else
---                        read_state <= init;
---                        out_t_valid <= '1';
---                        state <= finished;
---                    end if;
+                        end if;
+                    else
+                        read_state <= init;
+                        out_t_valid <= '1';
+                        state <= finished;
+                    end if;
 --                    --floyd-warshall here
                 when finished =>
                     
@@ -284,12 +290,18 @@ begin
                                 out_t_valid <= '0';
                             when wait_before_read =>
                                 --do nothing
+                                read_state <= write_to_row;
+                            when write_to_row =>
                                 read_state <= read;
                             when read =>
-                                current_row := bram_out_value;
+                                current_row <= bram_out_value;
 --                                report "current_row is " & to_string(current_row);
+--                                out_value <= to_integer(signed(current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1)));
+                                                                
+                                read_state <= write_to_memory;
+                            
+                            when write_to_memory =>
                                 out_value <= to_integer(signed(current_row(column * NUM_SIZE to (column + 1) * NUM_SIZE - 1)));
-                                
                                 out_t_valid <= '1';                                
                                 read_state <= init;
                             when finished =>
