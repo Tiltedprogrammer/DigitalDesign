@@ -11,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity fw is
-    generic(NUMBER_OF_VERTICES : integer := 32; NUM_SIZE : integer :=32);
+    generic(NUMBER_OF_VERTICES : integer range 1 to 64 := 32; NUM_SIZE : integer :=32);
     port (clk : in std_logic; --clock
         rst : in std_logic; --reset
         
@@ -34,7 +34,7 @@ signal bram_out_value : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
 signal bram_we : std_logic;
 --signal read_addr : integer;
 
---for debuf purposes
+--for debug purposes
 function to_string ( a: std_logic_vector) return string is
 variable b : string (1 to a'length) := (others => NUL);
 variable stri : integer := 1; 
@@ -45,23 +45,8 @@ begin
     end loop;
 return b;
 end function;
---end of debuf purposes
+--end of debug purposes
 
-function minimum (a : in std_logic_vector; b : in std_logic_vector) return std_logic_vector is
-    begin
-     if a = (0 to a'length - 1 => '1') then
-        return b;
-     else 
-        if b = (0 to b'length - 1 => '1') then
-            return a;
-        else 
-            if to_integer(signed(a)) > to_integer(signed(b)) then
-                return b;
-            else return a;
-            end if;
-        end if;
-     end if;
-end minimum;
 
 signal param_value_buffer1 : integer;
 
@@ -69,7 +54,7 @@ signal param_addr_buffer1 : integer range 0 to NUMBER_OF_VERTICES - 1;
 
 
 component bram
-    generic(NUMBER_OF_VERTICES : integer := NUMBER_OF_VERTICES);
+    generic(NUMBER_OF_VERTICES : integer range 1 to 64 := NUMBER_OF_VERTICES; NUM_SIZE : integer := 32);
     port(addr : integer range 0 to NUMBER_OF_VERTICES - 1; clk : in std_logic; 
          d_input : in std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1); 
          we : in std_logic; 
@@ -77,11 +62,11 @@ component bram
 end component;
 
 
-type STATE_TYPE is (non_reseted,reseting,ready_to_read,processing,finished);
+type STATE_TYPE is (ready_to_read,processing,finished);
 type READ_TYPE is (init,read,finished,wait_before_read,write_to_row,write_to_memory);
-type FW_TYPE is (init, read_i,read_k,find_min,write_i,read_ik);
+type FW_TYPE is (init, read_i,read_k,find_min1,find_min2,write_i,read_ik,wait_k);
 
-signal state : STATE_TYPE := non_reseted;
+signal state : STATE_TYPE := ready_to_read;
 signal read_state : READ_TYPE;
 signal fw_state : FW_TYPE;
 
@@ -90,27 +75,26 @@ signal column : integer range 0 to NUMBER_OF_VERTICES - 1;
 signal k_counter : integer range 0 to NUMBER_OF_VERTICES;
 signal i_counter : integer range 0 to NUMBER_OF_VERTICES;
 
-signal ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
-signal kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
+signal ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
+signal kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
 signal ik_value : std_logic_vector(0 to NUM_SIZE - 1);
 signal ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
 signal kj_value : std_logic_vector(0 to NUM_SIZE - 1);
+
+signal minimum_vector : std_logic_vector(0 to NUMBER_OF_VERTICES - 1);
+
+signal left : integer range 0 to NUMBER_OF_VERTICES * NUM_SIZE - 1;
+signal right : integer range 0 to NUMBER_OF_VERTICES * NUM_SIZE - 1;
 
 signal current_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1);
 begin
 
 graph: bram
-    generic map(NUMBER_OF_VERTICES => NUMBER_OF_VERTICES)
+    generic map(NUMBER_OF_VERTICES => NUMBER_OF_VERTICES,NUM_SIZE => NUM_SIZE)
     port map(addr => bram_addr,clk => clk,d_input => bram_in_value, we => bram_we, d_output => bram_out_value);
 
 fw: process (clk,rst)
 
---variable current_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
---variable ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
---variable kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
---variable ik_value : std_logic_vector(0 to NUM_SIZE - 1);
---variable ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
---variable kj_value : std_logic_vector(0 to NUM_SIZE - 1);
 variable tmp: std_logic_vector(0 to NUM_SIZE - 1);
 
 begin
@@ -118,31 +102,17 @@ begin
     if rising_edge(clk) then
         
         if rst = '1' then
-         out_ready_to_read <= '0';
          i_counter <= 0;
          k_counter <= 0;
-         state <= non_reseted;
+         out_t_valid <= '0';
+         out_ready_to_read <= '1';
+         bram_we <= '0';
+         state <= ready_to_read;
+         read_state <= init;
+         fw_state <= init;
         end if;
         
         case state is
-            when non_reseted => 
-                read_state <= init;
-                state <= reseting;
-                fw_state <= init;
-                bram_addr <= 0;
-                bram_in_value <= (others => '0'); --how to declare infinity?
-                bram_we <= '1';
-            when reseting =>
-                if bram_addr < NUMBER_OF_VERTICES - 1 then
-                    bram_addr <= bram_addr + 1;
---                    bram_in_value <= (others => '1'); --infinity
-                else 
-                    state <= ready_to_read;
-                    out_t_valid <= '0';
-                    out_ready_to_read <= '1';
-                    bram_we <= '0';
---                    bram_addr <= 0; 
-                end if;
             when ready_to_read =>
                 if param_t_valid = '1' then
                     if param_t_last = '0' then
@@ -236,31 +206,44 @@ begin
                                 when read_i =>
                                     bram_addr <= k_counter;
                                     fw_state <= read_k;
+                                    
+--                                    left <= k_counter * NUM_SIZE;
                                 when read_k =>
                                     ith_row <= bram_out_value;
-                                    
-                                    fw_state <= read_ik;
-                                    
-                                when read_ik =>
-                                    ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1);
+--                                    right <= (k_counter + 1) * NUM_SIZE - 1;
+                                    fw_state <= wait_k;
+                                when wait_k =>
                                     kth_row <= bram_out_value;
+                                    fw_state <= read_ik;    
+                                when read_ik =>
+                                    ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1); --does not "width-typecheck"
                                     bram_addr <= i_counter;
-                                    fw_state <= find_min;
-                                when find_min =>
+                                    fw_state <= find_min1;
+                                when find_min1 =>
 --                                    kth_row := bram_out_value;
                                     for j in 0 to NUMBER_OF_VERTICES - 1 loop
 --                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
                                         
                                         
-                                            if  to_integer(signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
-                                                to_integer(signed(ik_value)) + to_integer(signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
-                                            ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
-                                                std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
+                                            if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
+                                                (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
+                                                minimum_vector(j) <= '0';
+                                            else minimum_vector(j) <= '1';    
                                             end if;
+                                            
                                           
                                     end loop;
                                     i_counter <= i_counter + 1;
-                                    fw_state <= write_i;
+                                    fw_state <= find_min2;
+                                 
+                                 when find_min2 =>
+                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
+                                        if minimum_vector(j) = '0' then
+                                        ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
+                                                std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
+                                        end if;
+                                    end loop;
+                                    fw_state <= write_i;   
                                     
                                  when write_i =>
 --                                    --waiting

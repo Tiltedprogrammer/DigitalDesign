@@ -84,11 +84,16 @@ process
   variable number_of_files : integer := 10;
   variable g : graph_type; --:= read_graph("input_graph.txt",graph_file);
                  begin
+                 
                      
                      --for each file (they are NUMBER_OF_VERTICESxNUMBER_OF_VERTICES graphs)
                  for n in 1 to number_of_files loop
-                     
+                    
+                      rst <= '1';
+                      delay(1,clk);
+                      rst <= '0';    
 --                     filepath := "../../../../test_files/prefix";
+--                     available_prefixes are 4x4,16x16,32x32; 
 --                     filename := "input_graph{i}";
 -- vhdl has a very strange support of strings, hence : 
                      g := read_graph("../../../../test_files/32x32/" & "input_graph" & integer'image(n),graph_file);
@@ -125,9 +130,7 @@ process
                                     " element is not "& integer'image(g(i,j))  & ", but is " & integer'image(out_value);
                             end loop;
                       end loop;
-                      rst <= '1';
-                      delay(1,clk);
-                      rst <= '0';
+                      
                  end loop;
                  wait;
   end process;
