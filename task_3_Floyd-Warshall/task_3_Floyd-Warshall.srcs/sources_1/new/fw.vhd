@@ -69,6 +69,10 @@ type STATE_TYPE is (ready_to_read,processing,finished);
 type READ_TYPE is (init,read,finished,wait_before_read,write_to_row,write_to_memory);
 type FW_TYPE is (init, read_i,read_k,find_min1,find_min2,write_i,read_ik,wait_k);
 
+type ith_rows_type is array(0 to 3) of std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
+type ik_s_type is array(0 to 2) of std_logic_vector(0 to NUM_SIZE - 1);
+type minimum_vectors_type is array(0 to 1) of std_logic_vector(0 to NUMBER_OF_VERTICES - 1);
+
 signal state : STATE_TYPE := ready_to_read;
 signal read_state : READ_TYPE;
 signal fw_state : FW_TYPE;
@@ -83,6 +87,12 @@ signal kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
 signal ik_value : std_logic_vector(0 to NUM_SIZE - 1);
 signal ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
 signal kj_value : std_logic_vector(0 to NUM_SIZE - 1);
+
+
+signal ith_rows : ith_rows_type;
+signal new_ith_rows : ith_rows_type;
+signal ik_s : ik_s_type;
+signal minimum_vectors :  minimum_vectors_type;
 
 signal minimum_vector : std_logic_vector(0 to NUMBER_OF_VERTICES - 1);
 
@@ -211,44 +221,31 @@ begin
                                     bram_raddr <= i_counter; --read ith_row then
                                     kth_row <= bram_out_value;
                                     fw_state <= read_i;
+                                
                                 when read_i =>
+                                    bram_raddr <= i_counter + 1; -- read next i
                                     bram_we <= '0';
                                     fw_state <= wait_k;
                                     
-                                when wait_k =>
+                                when wait_k => --read_i process starts here
+                                    bram_raddr <= i_counter + 2; --i_counter will be read in ith_rows(0)
                                     ith_row <= bram_out_value;
-                                    fw_state <= read_ik;    
-                                when read_ik =>
                                     ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1); --does not "width-typecheck"
-                                    bram_waddr <= i_counter;
+                                    fw_state <= read_ik;    
+                                
+                                --read_ik start
+                                when read_ik => --i_counter + 1 in ith_rows(0) ik is ith_rows(0)[k]
+--                                    ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1); --does not "width-typecheck"
+                                    bram_raddr <= i_counter + 3;
                                     fw_state <= find_min1;
-                                when find_min1 =>
---                                    kth_row := bram_out_value;
---                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
-----                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
-                                        
---                                            --g(i,j) > [i,k] + [k,j]
---                                            if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
---                                                (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
---                                                minimum_vector(j) <= '0';
---                                            else minimum_vector(j) <= '1';    
---                                            end if;
-                                            
-                                          
---                                    end loop;
---                                    i_counter <= i_counter + 1;
+                                when find_min1 => --need ik(1) and ith_rows(2)
+                                    bram_raddr <= i_counter + 4;
                                     fw_state <= find_min2;
-                                 
-                                 when find_min2 =>
-                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
-                                        if minimum_vector(j) = '0' then
-                                        ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
-                                                std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
-                                        end if;
-                                    end loop;
-                                    fw_state <= write_i;   
+                                when find_min2 => 
+                                    bram_raddr <= i_counter + 5;
+                                    fw_state <= write_i;
                                     
-                                 when write_i =>
+                                 when write_i => -- TODO write
 --                                    --waiting
                                     bram_we <= '1';
                                     bram_in_value <= ith_row;
@@ -322,24 +319,69 @@ begin
   end if;
 end process;
 
-find_min : process(clk) is
+read_ik_s : process(clk) is 
+begin
+    if rising_edge(clk) then
+        if fw_state = read_ik or fw_state = find_min1 or fw_state = find_min2 or fw_state = write_i then
+            ik_s(0) <= ith_rows(1)(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1);
+            for i in 1 to 2 loop
+                ik_s(i) <= ik_s(i-1);
+            end loop;
+        end if;
+    end if;
+end process;
+
+read_ith_row : process(clk) is
+begin
+    if rising_edge(clk) then
+        
+        if fw_state = wait_k or fw_state = read_ik or fw_state = find_min1 or fw_state = find_min2 or fw_state = write_i then --check state as well
+            ith_rows(0) <= bram_out_value;
+                for i in 1 to 3 loop
+                    ith_rows(i) <= ith_rows(i-1);
+            end loop;
+        end if;
+    end if;
+end process;
+
+find_min1_ps : process(clk) is
 begin
 
 if rising_edge(clk) then
-   for j in 0 to NUMBER_OF_VERTICES - 1 loop
+    if fw_state = find_min1 or fw_state = find_min2 or fw_state = write_i then
+        for j in 0 to NUMBER_OF_VERTICES - 1 loop
 --                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
                                         
                                             --g(i,j) > [i,k] + [k,j]
-       if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
-                   (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
-                              minimum_vector(j) <= '0';
-       else minimum_vector(j) <= '1';    
-         end if;
+        if  (signed(ith_rows(2)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
+                   (signed(ik_s(1))) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
+                              minimum_vectors(0)(j) <= '0';
+        else minimum_vectors(0)(j) <= '1';    
+            end if;
                                             
                                           
        end loop;
+    
+        minimum_vectors(1) <= minimum_vectors(0);
+    
+   end if;  
 end if; 
 
+end process;
+
+find_min2ps : process(clk) is
+begin
+    if rising_edge(clk) then
+        if fw_state = find_min2 or fw_state = write_i then
+      for j in 0 to NUMBER_OF_VERTICES - 1 loop
+           if minimum_vectors(1)(j) = '0' then
+                    new_ith_rows(0) <= ith_rows(3);
+                    new_ith_rows(0)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
+                         std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
+           end if;
+      end loop;
+      end if;
+     end if;
 end process;
 
 end behavioral;

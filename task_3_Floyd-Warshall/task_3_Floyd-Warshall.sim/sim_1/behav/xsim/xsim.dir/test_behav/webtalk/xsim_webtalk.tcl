@@ -1,6 +1,6 @@
 webtalk_init -webtalk_dir /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/
 webtalk_register_client -client project
-webtalk_add_data -client project -key date_generated -value "Thu Jan 28 15:43:55 2021" -context "software_version_and_target_device"
+webtalk_add_data -client project -key date_generated -value "Thu Jan 28 18:34:04 2021" -context "software_version_and_target_device"
 webtalk_add_data -client project -key product_version -value "XSIM v2020.1 (64-bit)" -context "software_version_and_target_device"
 webtalk_add_data -client project -key build_version -value "2902540" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_platform -value "LIN64" -context "software_version_and_target_device"
@@ -14,11 +14,11 @@ webtalk_add_data -client project -key target_package -value "not_applicable" -co
 webtalk_add_data -client project -key target_speed -value "not_applicable" -context "software_version_and_target_device"
 webtalk_add_data -client project -key random_id -value "cf3d0316-69af-418d-8be9-68d73d051625" -context "software_version_and_target_device"
 webtalk_add_data -client project -key project_id -value "c1336dc9d3064dbfa1d39ebcfe6a4ac4" -context "software_version_and_target_device"
-webtalk_add_data -client project -key project_iteration -value "232" -context "software_version_and_target_device"
+webtalk_add_data -client project -key project_iteration -value "236" -context "software_version_and_target_device"
 webtalk_add_data -client project -key os_name -value "Ubuntu" -context "user_environment"
 webtalk_add_data -client project -key os_release -value "Ubuntu 20.04.1 LTS" -context "user_environment"
 webtalk_add_data -client project -key cpu_name -value "Intel(R) Core(TM) i9-9980HK CPU @ 2.40GHz" -context "user_environment"
-webtalk_add_data -client project -key cpu_speed -value "2939.577 MHz" -context "user_environment"
+webtalk_add_data -client project -key cpu_speed -value "4077.624 MHz" -context "user_environment"
 webtalk_add_data -client project -key total_processors -value "1" -context "user_environment"
 webtalk_add_data -client project -key system_ram -value "33.000 GB" -context "user_environment"
 webtalk_register_client -client xsim
@@ -33,10 +33,10 @@ webtalk_add_data -client xsim -key Debug -value "typical" -context "xsim\\comman
 webtalk_add_data -client xsim -key Simulation_Image_Code -value "39 KB" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Simulation_Image_Data -value "3 KB" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Nets -value "0" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Total_Processes -value "5" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Total_Processes -value "8" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Total_Instances -value "9" -context "xsim\\usage"
 webtalk_add_data -client xsim -key Xilinx_HDL_Libraries_Used -value "secureip " -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Time -value "1.32_sec" -context "xsim\\usage"
-webtalk_add_data -client xsim -key Compiler_Memory -value "247512_KB" -context "xsim\\usage"
-webtalk_transmit -clientid 3199618524 -regid "" -xml /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
+webtalk_add_data -client xsim -key Compiler_Time -value "1.02_sec" -context "xsim\\usage"
+webtalk_add_data -client xsim -key Compiler_Memory -value "247844_KB" -context "xsim\\usage"
+webtalk_transmit -clientid 376445574 -regid "" -xml /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.xml -html /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.html -wdm /home/alexey.tyurin/DigitalDesign/task_3_Floyd-Warshall/task_3_Floyd-Warshall.sim/sim_1/behav/xsim/xsim.dir/test_behav/webtalk/usage_statistics_ext_xsim.wdm -intro "<H3>XSIM Usage Report</H3><BR>"
 webtalk_terminate
