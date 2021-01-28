@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="130201fs"></ZoomEndTime>
-      <Cursor1Time time="12000fs"></Cursor1Time>
+      <ZoomStartTime time="752570fs"></ZoomStartTime>
+      <ZoomEndTime time="890790fs"></ZoomEndTime>
+      <Cursor1Time time="728530fs"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="455"></NameColumnWidth>
-      <ValueColumnWidth column_width="188"></ValueColumnWidth>
+      <ValueColumnWidth column_width="180"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="13" />
+   <WVObjectSize size="18" />
    <wvobject type="logic" fp_name="/test/DUT/clk">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -53,10 +53,6 @@
       <obj_property name="ElementShortName">out_ready_to_read</obj_property>
       <obj_property name="ObjectShortName">out_ready_to_read</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/test/DUT/bram_addr">
-      <obj_property name="ElementShortName">bram_addr</obj_property>
-      <obj_property name="ObjectShortName">bram_addr</obj_property>
-   </wvobject>
    <wvobject type="array" fp_name="/test/DUT/bram_in_value">
       <obj_property name="ElementShortName">bram_in_value[0:127]</obj_property>
       <obj_property name="ObjectShortName">bram_in_value[0:127]</obj_property>
@@ -69,8 +65,32 @@
       <obj_property name="ElementShortName">bram_we</obj_property>
       <obj_property name="ObjectShortName">bram_we</obj_property>
    </wvobject>
-   <wvobject type="other" fp_name="/test/DUT/param_value_buffer">
-      <obj_property name="ElementShortName">param_value_buffer</obj_property>
-      <obj_property name="ObjectShortName">param_value_buffer</obj_property>
+   <wvobject type="other" fp_name="/test/DUT/fw_state">
+      <obj_property name="ElementShortName">fw_state</obj_property>
+      <obj_property name="ObjectShortName">fw_state</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/ith_row">
+      <obj_property name="ElementShortName">ith_row[0:127]</obj_property>
+      <obj_property name="ObjectShortName">ith_row[0:127]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bram_raddr">
+      <obj_property name="ElementShortName">bram_raddr</obj_property>
+      <obj_property name="ObjectShortName">bram_raddr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/bram_waddr">
+      <obj_property name="ElementShortName">bram_waddr</obj_property>
+      <obj_property name="ObjectShortName">bram_waddr</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/i_counter">
+      <obj_property name="ElementShortName">i_counter</obj_property>
+      <obj_property name="ObjectShortName">i_counter</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/test/DUT/kth_row">
+      <obj_property name="ElementShortName">kth_row[0:127]</obj_property>
+      <obj_property name="ObjectShortName">kth_row[0:127]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/test/DUT/k_counter">
+      <obj_property name="ElementShortName">k_counter</obj_property>
+      <obj_property name="ObjectShortName">k_counter</obj_property>
    </wvobject>
 </wave_config>

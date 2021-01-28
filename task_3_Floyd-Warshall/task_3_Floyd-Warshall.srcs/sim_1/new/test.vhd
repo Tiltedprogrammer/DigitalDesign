@@ -5,7 +5,7 @@ use IEEE.NUMERIC_STD.ALL;
 use STD.textio.all;
 use ieee.std_logic_textio.all;
 
-entity test is generic(NUMBER_OF_VERTICES : integer := 32);
+entity test is generic(NUMBER_OF_VERTICES : integer := 16);
  end test;
 
 architecture behavioral of test is
@@ -81,7 +81,7 @@ end process;
 
 process
 
-  variable number_of_files : integer := 10;
+  variable number_of_files : integer := 5;
   variable g : graph_type; --:= read_graph("input_graph.txt",graph_file);
                  begin
                  
@@ -96,9 +96,9 @@ process
 --                     available_prefixes are 4x4,16x16,32x32; 
 --                     filename := "input_graph{i}";
 -- vhdl has a very strange support of strings, hence : 
-                     g := read_graph("../../../../test_files/32x32/" & "input_graph" & integer'image(n),graph_file);
+                     g := read_graph("../../../../test_files/16x16/" & "input_graph" & integer'image(n),graph_file);
                      
-                     report "testing file " & "../../../../test_files/32x32/" & "input_graph" & integer'image(n);
+                     report "testing file " & "../../../../test_files/16x16/" & "input_graph" & integer'image(n);
                      
                      param_t_last <= '0';
                      for i in 0 to NUMBER_OF_VERTICES - 1 loop
@@ -119,7 +119,7 @@ process
                     wait until out_t_valid = '1';
                     --check result
 
-                    g := read_graph("../../../../test_files/32x32/" & "input_graph" & integer'image(n) &"_dist", graph_file);
+                    g := read_graph("../../../../test_files/16x16/" & "input_graph" & integer'image(n) &"_dist", graph_file);
                     
                     for i in 0 to NUMBER_OF_VERTICES - 1 loop
                             for j in 0 to NUMBER_OF_VERTICES - 1 loop

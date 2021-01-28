@@ -22,7 +22,8 @@ use IEEE.NUMERIC_STD.ALL;
 
 entity bram is
     generic(NUMBER_OF_VERTICES : integer range 1 to 64 := 64; NUM_SIZE : integer := 32);
-    port ( addr : in integer range 0 to NUMBER_OF_VERTICES - 1;
+    port ( waddr : in integer range 0 to NUMBER_OF_VERTICES - 1;
+           raddr : in integer range 0 to NUMBER_OF_VERTICES - 1;
            
            clk : in std_logic;
            d_input : in std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE ) - 1);
@@ -44,10 +45,11 @@ begin
     
     if rising_edge(clk) then
         if we = '1' then
-            memory(addr) <= d_input;
+            memory(waddr) <= d_input;
+            d_output <= memory(raddr);
         else 
          
-            d_output <= memory(addr);
+            d_output <= memory(raddr);
             
         end if;
     end if;

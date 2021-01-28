@@ -28,7 +28,8 @@ entity fw is
     
 architecture behavioral of fw is
 
-signal bram_addr : integer range 0 to NUMBER_OF_VERTICES - 1;
+signal bram_raddr : integer range 0 to NUMBER_OF_VERTICES - 1;
+signal bram_waddr : integer range 0 to NUMBER_OF_VERTICES - 1;
 signal bram_in_value : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
 signal bram_out_value : std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 )-1);
 signal bram_we : std_logic;
@@ -55,7 +56,9 @@ signal param_addr_buffer1 : integer range 0 to NUMBER_OF_VERTICES - 1;
 
 component bram
     generic(NUMBER_OF_VERTICES : integer range 1 to 64 := NUMBER_OF_VERTICES; NUM_SIZE : integer := 32);
-    port(addr : integer range 0 to NUMBER_OF_VERTICES - 1; clk : in std_logic; 
+    port(waddr : integer range 0 to NUMBER_OF_VERTICES - 1;
+         raddr : integer range 0 to NUMBER_OF_VERTICES - 1;
+         clk : in std_logic; 
          d_input : in std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1); 
          we : in std_logic; 
          d_output : out std_logic_vector(0 to (NUMBER_OF_VERTICES * 32 ) - 1));
@@ -91,7 +94,7 @@ begin
 
 graph: bram
     generic map(NUMBER_OF_VERTICES => NUMBER_OF_VERTICES,NUM_SIZE => NUM_SIZE)
-    port map(addr => bram_addr,clk => clk,d_input => bram_in_value, we => bram_we, d_output => bram_out_value);
+    port map(waddr => bram_waddr, raddr => bram_raddr, clk => clk,d_input => bram_in_value, we => bram_we, d_output => bram_out_value);
 
 fw: process (clk,rst)
 
@@ -120,7 +123,7 @@ begin
                             when init =>
                                 bram_we <= '0';
                                 param_value_buffer1 <= param_value; --first read
-                                bram_addr <= param_addr / NUMBER_OF_VERTICES; --row_id
+                                bram_raddr <= param_addr / NUMBER_OF_VERTICES; --row_id
                                 param_addr_buffer1 <= param_addr;
                                 
                                 read_state <= wait_before_read;
@@ -133,6 +136,7 @@ begin
                             when read => 
                                 
                                 current_row <= bram_out_value;
+                                
 --                                report "current_row is " & to_string(current_row);
                                 tmp := std_logic_vector(to_signed(param_value_buffer1, NUM_SIZE));
                                                      
@@ -146,6 +150,7 @@ begin
                             when write_to_memory =>  
                                 
                                 bram_we <= '1';
+                                bram_waddr <= param_addr / NUMBER_OF_VERTICES;
                                 bram_in_value <= current_row;
                                 out_ready_to_read <= '1';
                                 read_state <= init;
@@ -157,7 +162,7 @@ begin
                             when init =>
                                 bram_we <= '0';
                                 param_value_buffer1 <= param_value; 
-                                bram_addr <= param_addr / NUMBER_OF_VERTICES; --row_id
+                                bram_raddr <= param_addr / NUMBER_OF_VERTICES; --row_id
                                 param_addr_buffer1 <= param_addr;
                                 
                                 read_state <= wait_before_read;
@@ -178,11 +183,12 @@ begin
                             when write_to_memory =>
                                 bram_in_value <= current_row;
                                 bram_we <= '1';
-                                 
+                                bram_waddr <= param_addr / NUMBER_OF_VERTICES; 
                                 out_ready_to_read <= '1';                                
                                 read_state <= finished;
                             when finished => 
                                 bram_we <= '0';
+                                bram_raddr <= k_counter; --start with k = 0;
                                 out_ready_to_read <= '0';
                                 state <= processing;
                         end case;  
@@ -190,50 +196,47 @@ begin
                 end if;
                         
                 when processing =>
-                    if k_counter < NUMBER_OF_VERTICES then
-                        if i_counter <= NUMBER_OF_VERTICES then
+--                    if k_counter < NUMBER_OF_VERTICES then
+                        --read [k,j] \forall j
+                   
                             case fw_state is --(init, read_i,read_k,find_min);
-                                when init => 
+                                when init => --read kth here 
                                     bram_we <= '0';
                                     --read i_th row
-                                    if i_counter = NUMBER_OF_VERTICES then
-                                        k_counter <= k_counter + 1;
-                                        bram_addr <= 0;
-                                        i_counter <= 0;
-                                    else bram_addr <= i_counter;
-                                    end if; --need to wait
+--                                    bram_raddr <= k_counter;
+                                     --need to wait
+                                    fw_state <= read_k;
+                                
+                                when read_k => 
+                                    bram_raddr <= i_counter; --read ith_row then
+                                    kth_row <= bram_out_value;
                                     fw_state <= read_i;
                                 when read_i =>
-                                    bram_addr <= k_counter;
-                                    fw_state <= read_k;
-                                    
---                                    left <= k_counter * NUM_SIZE;
-                                when read_k =>
-                                    ith_row <= bram_out_value;
---                                    right <= (k_counter + 1) * NUM_SIZE - 1;
+                                    bram_we <= '0';
                                     fw_state <= wait_k;
+                                    
                                 when wait_k =>
-                                    kth_row <= bram_out_value;
+                                    ith_row <= bram_out_value;
                                     fw_state <= read_ik;    
                                 when read_ik =>
                                     ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1); --does not "width-typecheck"
-                                    bram_addr <= i_counter;
+                                    bram_waddr <= i_counter;
                                     fw_state <= find_min1;
                                 when find_min1 =>
 --                                    kth_row := bram_out_value;
-                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
---                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
+--                                    for j in 0 to NUMBER_OF_VERTICES - 1 loop
+----                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
                                         
-                                        
-                                            if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
-                                                (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
-                                                minimum_vector(j) <= '0';
-                                            else minimum_vector(j) <= '1';    
-                                            end if;
+--                                            --g(i,j) > [i,k] + [k,j]
+--                                            if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
+--                                                (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
+--                                                minimum_vector(j) <= '0';
+--                                            else minimum_vector(j) <= '1';    
+--                                            end if;
                                             
                                           
-                                    end loop;
-                                    i_counter <= i_counter + 1;
+--                                    end loop;
+--                                    i_counter <= i_counter + 1;
                                     fw_state <= find_min2;
                                  
                                  when find_min2 =>
@@ -249,25 +252,47 @@ begin
 --                                    --waiting
                                     bram_we <= '1';
                                     bram_in_value <= ith_row;
-                                    fw_state <= init;
+                                    
+                                    if i_counter = k_counter then
+                                        kth_row <= ith_row;
+                                    end if;
+                                    
+                                    if i_counter = NUMBER_OF_VERTICES - 1 then --need to read new_k
+                                        k_counter <= k_counter + 1;
+                                        i_counter <= 0;
+                                        if k_counter /= NUMBER_OF_VERTICES - 1 then 
+                                            bram_raddr <= k_counter + 1;
+                                        else
+                                            read_state <= init;
+                                            out_t_valid <= '1';
+                                            bram_we <= '0';
+                                            state <= finished; 
+                                        end if;
+                                        fw_state <= init;
+                                    else
+                                        i_counter <= i_counter + 1;
+                                        bram_raddr <= i_counter + 1; 
+                                        fw_state <= read_i;
+                                    end if;
                                     
                             end case; 
 --                         --read i_th row
                          --then k_th row
                             
-                        end if;
-                    else
-                        read_state <= init;
-                        out_t_valid <= '1';
-                        state <= finished;
-                    end if;
+                        
+--                    else
+--                        read_state <= init;
+--                        out_t_valid <= '1';
+--                        state <= finished;
+--                    end if;
 --                    --floyd-warshall here
                 when finished =>
                     
                     if param_write_enable = '0' then
                         case read_state is
                             when init => 
-                                bram_addr <= param_addr / NUMBER_OF_VERTICES; --row_id
+                                bram_we <= '0';
+                                bram_raddr <= param_addr / NUMBER_OF_VERTICES; --row_id
                                 column <= param_addr mod NUMBER_OF_VERTICES;
                                 read_state <= wait_before_read;
                                 out_t_valid <= '0';
@@ -296,4 +321,25 @@ begin
     end case;
   end if;
 end process;
+
+find_min : process(clk) is
+begin
+
+if rising_edge(clk) then
+   for j in 0 to NUMBER_OF_VERTICES - 1 loop
+--                                        kj_value := kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
+                                        
+                                            --g(i,j) > [i,k] + [k,j]
+       if  (signed(ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
+                   (signed(ik_value)) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
+                              minimum_vector(j) <= '0';
+       else minimum_vector(j) <= '1';    
+         end if;
+                                            
+                                          
+       end loop;
+end if; 
+
+end process;
+
 end behavioral;
