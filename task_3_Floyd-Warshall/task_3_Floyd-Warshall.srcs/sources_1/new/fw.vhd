@@ -99,10 +99,9 @@ signal kj_value : std_logic_vector(0 to NUM_SIZE - 1);
 
 signal ith_rows : ith_rows_type;
 signal ik_s : ik_s_type;
-signal minimum_vectors :  minimum_vectors_type;
 
-signal minimum_vector : std_logic_vector(0 to NUMBER_OF_VERTICES - 1);
---signal minimum_vector : minimum_vector_type;
+--signal minimum_vector : std_logic_vector(0 to NUMBER_OF_VERTICES - 1);
+signal minimum_vector : minimum_vector_type;
 signal left : integer range 0 to NUMBER_OF_VERTICES * NUM_SIZE - 1;
 signal right : integer range 0 to NUMBER_OF_VERTICES * NUM_SIZE - 1;
 
@@ -412,8 +411,8 @@ if rising_edge(clk) then
                                             --g(i,j) > [i,k] + [k,j]
                     if  (signed(ith_rows(1)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
                         (signed(ik_s(0))) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
-                              minimum_vector(j) <= '0';
-                    else minimum_vector(j) <= '1';    
+                              minimum_vector(j) <= 0;
+                    else minimum_vector(j) <= 1;    
                     end if;
                                             
                                           
@@ -441,8 +440,8 @@ if rising_edge(clk) then
                                             --g(i,j) > [i,k] + [k,j]
                     if  (signed(ith_rows(1)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) > 
                         (signed(ik_s(0))) + (signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) then
-                              minimum_vector(j) <= '0';
-                    else minimum_vector(j) <= '1';    
+                              minimum_vector(j) <= 0;
+                    else minimum_vector(j) <= 1;    
                     end if;
                                             
                                           
@@ -469,15 +468,10 @@ begin
 --                new_ith_row <= ith_rows(2);
             for j in 0 to NUMBER_OF_VERTICES - 1 loop
                 
-                if minimum_vector(j) = '0' then
-
-                    new_ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= 
-                         std_logic_vector(signed(ik_value) + signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1)));
-                else
-                    new_ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= ith_rows(2)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
-                                   
-                end if;
-            end loop;
+                
+                new_ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= std_logic_vector(to_signed((minimum_vector(j) * to_integer(signed(ith_rows(2)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) +
+                         (1 - minimum_vector(j)) * (to_integer(signed(ik_value)) + to_integer(signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))))),NUM_SIZE));
+             end loop;
 
       end if;
       end if;
