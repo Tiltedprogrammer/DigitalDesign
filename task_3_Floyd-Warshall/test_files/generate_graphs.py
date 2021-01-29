@@ -46,8 +46,8 @@ def write_graphs_and_distances(g,filename):
             f.write("\n")
 
 
-prefix = "32x32"
-number_of_vertices = 32
+prefix = "7x7"
+number_of_vertices = 7
 
 
 for i in range(1,11):
