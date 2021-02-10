@@ -21,7 +21,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
 entity bram is
-    generic(NUMBER_OF_VERTICES : integer range 1 to 64 := 64; NUM_SIZE : integer := 32);
+    generic(NUMBER_OF_VERTICES : integer := 64; NUM_SIZE : integer := 32);
     port ( waddr : in integer range 0 to NUMBER_OF_VERTICES - 1;
            raddr : in integer range 0 to NUMBER_OF_VERTICES - 1;
            

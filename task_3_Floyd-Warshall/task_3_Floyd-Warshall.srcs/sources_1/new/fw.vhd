@@ -11,7 +11,7 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity fw is
-    generic(NUMBER_OF_VERTICES : integer range 1 to 64 := 32; NUM_SIZE : integer :=32);
+    generic(NUMBER_OF_VERTICES : integer := 32; NUM_SIZE : integer :=32);
     port (clk : in std_logic; --clock
         rst : in std_logic; --reset
         
@@ -54,7 +54,7 @@ signal param_addr_buffer1 : integer range 0 to NUMBER_OF_VERTICES - 1;
 
 
 component bram
-    generic(NUMBER_OF_VERTICES : integer range 1 to 64 := NUMBER_OF_VERTICES; NUM_SIZE : integer := 32);
+    generic(NUMBER_OF_VERTICES : integer := NUMBER_OF_VERTICES; NUM_SIZE : integer := 32);
     port(waddr : integer range 0 to NUMBER_OF_VERTICES - 1;
          raddr : integer range 0 to NUMBER_OF_VERTICES - 1;
          clk : in std_logic; 
@@ -79,22 +79,19 @@ signal read_state : READ_TYPE;
 signal fw_state : FW_TYPE;
 signal lock : LOCK_TYPE;
 
-signal column : integer range 0 to NUMBER_OF_VERTICES - 1;
+signal column : integer range 0 to NUMBER_OF_VERTICES - 1 + 10;
 
-signal k_counter : integer range -4 to NUMBER_OF_VERTICES;
-signal i_counter : integer range 0 to NUMBER_OF_VERTICES;
+signal k_counter : integer range -4 to NUMBER_OF_VERTICES + 10;
+signal i_counter : integer range 0 to NUMBER_OF_VERTICES + 10;
 signal pipeline_length : integer range 0 to 6;
 
-signal i_counter_context : integer range 0 to NUMBER_OF_VERTICES;
-signal bram_raddr_context : integer range 0 to NUMBER_OF_VERTICES - 1;
+signal i_counter_context : integer range 0 to NUMBER_OF_VERTICES + 10;
+signal bram_raddr_context : integer range 0 to NUMBER_OF_VERTICES - 1 + 10;
 
 signal ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
 signal new_ith_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
 
 signal kth_row : std_logic_vector(0 to (NUMBER_OF_VERTICES * NUM_SIZE )-1);
-signal ik_value : std_logic_vector(0 to NUM_SIZE - 1);
-signal ik_plus_kj : std_logic_vector(0 to NUM_SIZE - 1);
-signal kj_value : std_logic_vector(0 to NUM_SIZE - 1);
 
 
 signal ith_rows : ith_rows_type;
@@ -216,14 +213,11 @@ begin
                 end if;
                         
                 when processing =>
---                    if k_counter < NUMBER_OF_VERTICES then
-                        --read [k,j] \forall j
                    
                             case fw_state is --(init, read_i,read_k,find_min);
                                 when init => --read kth here 
                                     bram_we <= '0';
-                                    --read i_th row
---                                   
+                                     
                                      --need to wait
                                     fw_state <= read_k;
                                 
@@ -242,7 +236,6 @@ begin
                                 when wait_k => --read_i process starts here
                                     bram_raddr <= i_counter; --i_counter will be read in ith_rows(0)
                                     ith_row <= bram_out_value;
-                                    ik_value <= ith_row(k_counter * NUM_SIZE to (k_counter + 1) * NUM_SIZE - 1); --does not "width-typecheck"
                                     i_counter <= i_counter + 1;
                                     fw_state <= read_ik;    
                                 
@@ -331,8 +324,6 @@ begin
 --                         --read i_th row
                          --then k_th row
                             
-                        
---                    --floyd-warshall here
                 when finished =>
                     
                     if param_write_enable = '0' then
@@ -473,6 +464,8 @@ begin
                 else 
                      new_ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= ith_rows(2)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1);
                 end if;
+                
+--alternative
 --                new_ith_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1) <= std_logic_vector(to_signed((minimum_vector(j) * to_integer(signed(ith_rows(2)(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))) +
 --                         (1 - minimum_vector(j)) * (to_integer(signed(ik_s(1))) + to_integer(signed(kth_row(j * NUM_SIZE to (j + 1) * NUM_SIZE - 1))))),NUM_SIZE));
              end loop;
